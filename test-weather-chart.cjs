@@ -1,0 +1,3 @@
+const assert=require('node:assert/strict'),{windowData}=require('./dist/weather-chart.js');const time=Array.from({length:48},(_,i)=>new Date(Date.UTC(2026,10,10)+i*3600000).toISOString().slice(0,16)),d={hourly:{time}};
+let w=windowData(d,time[23],90);assert.equal(w.lo,20);assert.equal(w.hi,28);assert.equal(w.end,24.5);assert(w.valid);
+assert.equal(windowData(d,'missing',25),null);assert.equal(windowData(null,time[0],25),null);assert.equal(windowData(d,time[0],25).lo,0);assert.equal(windowData(d,time[47],90).hi,47);assert.equal(windowData(d,time[20],null).valid,false);console.log('9 forecast-window checks passed');

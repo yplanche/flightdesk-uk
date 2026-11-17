@@ -1,0 +1,7 @@
+const assert=require('assert'),A=require('./dist/airspace-core.js');
+assert.deepEqual(A.qCoordinate('5128N00027W'),{lat:51+28/60,lon:-.45});assert.equal(A.qCoordinate('5199N00027W'),null);
+assert(A.boundsOverlap([-.5,51.4,-.4,51.5],{lat:51.45,lon:-.45},200));assert(!A.boundsOverlap([10,40,11,41],{lat:51.45,lon:-.45},200));
+const summer=A.londonStart('2026-07-01','12'),winter=A.londonStart('2026-11-12','12');assert.equal(new Date(summer).toISOString(),'2026-07-01T11:00:00.000Z');assert.equal(new Date(winter).toISOString(),'2026-11-12T12:00:00.000Z');assert.equal(A.londonStart('2026-10-25','01'),null);assert.equal(A.londonStart('2026-03-29','01'),null);
+const start=Date.parse('2026-11-12T12:00:00Z'),opts={point:{lat:51.5,lon:0},radius:500,start,end:start+1200000};const base={id:'A1/26',type:'N',coordinate:'5130N00000E',radius:'1',start:'2611120000',end:'2611130000'};
+const r=A.screenNotams([base,{...base,id:'cancel',type:'C'},{...base,id:'far',coordinate:'6000N01000E'},{...base,id:'future',start:'2611140000'},{...base,id:'unknown',coordinate:'bad'},{...base,id:'missingradius',radius:''}],opts);
+assert.deepEqual(r.nearby.map(x=>x.id),['A1/26','cancel']);assert.equal(r.unlocated.length,2);assert.equal(r.excluded.length,2);assert(A.freshIssued('2026-11-12T11:00:00Z',start));assert(!A.freshIssued('2026-11-12T08:00:00Z',start));console.log('14 airspace geometry, conservative NOTAM filtering, freshness and London DST checks passed');

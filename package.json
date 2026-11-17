@@ -1,0 +1,13 @@
+{
+  "name": "flightdesk-uk",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/preview-airspace-worker.mjs",
+    "build": "python3 scripts/update-pwa-version.py && python3 scripts/build-airspace-worker.py",
+    "start": "node scripts/preview-airspace-worker.mjs",
+    "test": "python3 scripts/manage.py test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

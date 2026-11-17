@@ -1,0 +1,7 @@
+Latest published source: d2dce74ac52f833311e50c8451aaeced49f3f01b
+Packaged: 2026-11-13
+Build: passed; 30 embedded static assets, local Leaflet included.
+All 17 regression scripts: passed.
+Independent Node HTTP smoke: passed for app HTML, bundled Leaflet, manifest, backup module, service worker and invalid API input.
+Live upstream data availability is not guaranteed by these checks.
+No user records or hosting credentials included.
