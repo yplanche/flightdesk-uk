@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 — 2026-11-19
+
+Fix Cloudflare build failure caused by enforcing a local source seal during ordinary builds. Ordinary builds retain exact fingerprinted identity and source downloads; explicit release sealing remains strict. No flight-record schema changes.
+
 ## 1.0.0 — 18 November 2026
 
 First explicitly versioned release based on the independent 13 November 2026 source package. Adds flight-phase workflow, source/licence notices, deterministic version metadata and updated planning features. See IMPLEMENTATION-REPORT.md for implemented scope, tests and limitations. This version number is not a safety/compliance certification.

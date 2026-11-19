@@ -3,7 +3,7 @@
 from pathlib import Path
 import json,subprocess,sys,zipfile
 root=Path(__file__).resolve().parents[1]
-subprocess.run([sys.executable,str(root/'scripts/release-metadata.py')],check=True)
+subprocess.run([sys.executable,str(root/'scripts/release-metadata.py'), '--strict-release'],check=True)
 meta=json.loads((root/'dist/version.json').read_text());archive=root/'dist'/meta['sourceArchive']
 if not archive.exists():sys.exit('Build before sealing: source archive is missing.')
 with zipfile.ZipFile(archive) as z:

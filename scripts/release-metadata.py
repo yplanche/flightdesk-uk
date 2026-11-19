@@ -36,7 +36,13 @@ def metadata():
     locks=root/'RELEASE-IDENTITIES.json'
     if locks.exists():
         prior=json.loads(locks.read_text()).get(version)
-        if prior and prior!=digest: raise SystemExit('Released version reused with changed source: increment package.json version before building.')
+        if prior and prior!=digest:
+            message=('Source fingerprint differs from the locally sealed '+version+' release. '
+                     'This build will use its own fingerprint and matching source archive. '
+                     'Increment the app version for intentional release changes.')
+            if '--strict-release' in sys.argv:
+                raise SystemExit('Version identity conflict: '+message)
+            print('Version notice: '+message, file=sys.stderr)
     return {'appVersion':version,'sourceRevision':commit,'sourceFingerprint':digest,'buildId':version+'-'+digest[:16], 'buildDate':release['releasedAt'], 'sourceArchive':'releases/flightdesk-uk-'+version+'-'+digest[:16]+'.zip','licence':'AGPL-3.0-only'}
 if len(sys.argv)>1 and sys.argv[1]=='archive':
     meta=json.loads((root/'dist/version.json').read_text()); dest=root/'dist'/meta['sourceArchive'];dest.parent.mkdir(exist_ok=True)
