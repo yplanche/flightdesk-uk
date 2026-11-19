@@ -1,3 +1,8 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+ * Flightdesk UK project origin: Yves Plancherel / ENDIAN-LAB.
+ * Copyright ownership and third-party material: see COPYRIGHT.md and THIRD-PARTY-NOTICES.md.
+ * Modified for release 1.0.0 on 18 November 2026.
+ */
 window.DJI_AIRCRAFT = [
   {
     "id": "dji-mavic-4-pro",

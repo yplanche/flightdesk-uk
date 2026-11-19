@@ -1,8 +1,13 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+ * Flightdesk UK project origin: Yves Plancherel / ENDIAN-LAB.
+ * Copyright ownership and third-party material: see COPYRIGHT.md and THIRD-PARTY-NOTICES.md.
+ * Modified for release 1.0.0 on 18 November 2026.
+ */
 'use strict';
 // Change RELEASE whenever ANY cached app file changes. No live feeds or auth routes are cached.
-const RELEASE='7b6be914024166cf';
+const RELEASE='dfa601bf5f010eab';
 const CACHE='flightdesk-shell-'+RELEASE;
-const CORE=['vendor/leaflet/images/layers-2x.png','vendor/leaflet/images/layers.png','vendor/leaflet/images/marker-icon-2x.png','vendor/leaflet/images/marker-icon.png','vendor/leaflet/images/marker-shadow.png','vendor/leaflet/leaflet.css','vendor/leaflet/leaflet.js','./','index.html','style.css','app.js','aircraft.js','rules.js','decision.js','equipment.js','operations.js','weather-chart.js','weather-map.js','weather-geo.js','field-workflow.js','completion-core.js','form-completion.js','pwa.js','backup.js','airspace-core.js','airspace-ui.js','manifest.webmanifest','icons/icon-180.png','icons/icon-192.png','icons/icon-512.png'];
+const CORE=['phases.css','scope.js','onsite.js','lifecycle-core.js','lifecycle.js','maintenance.js','version.js','version-ui.js','legal/LICENSE','legal/COPYRIGHT.md','legal/NAME-AND-LOGO-POLICY.md','legal/THIRD-PARTY-NOTICES.md','legal/CHANGELOG.md','vendor/leaflet/images/layers-2x.png','vendor/leaflet/images/layers.png','vendor/leaflet/images/marker-icon-2x.png','vendor/leaflet/images/marker-icon.png','vendor/leaflet/images/marker-shadow.png','vendor/leaflet/leaflet.css','vendor/leaflet/leaflet.js','./','index.html','style.css','app.js','aircraft.js','rules.js','decision.js','equipment.js','operations.js','weather-chart.js','weather-map.js','weather-geo.js','field-workflow.js','completion-core.js','form-completion.js','pwa.js','backup.js','airspace-core.js','airspace-ui.js','manifest.webmanifest','icons/icon-180.png','icons/icon-192.png','icons/icon-512.png'];
 const base=new URL('./',self.location.href);
 const allowed=new Set(CORE.map(path=>new URL(path,base).href));
 self.addEventListener('install',event=>event.waitUntil((async()=>{

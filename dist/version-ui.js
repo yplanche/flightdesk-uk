@@ -1,0 +1,13 @@
+/* SPDX-License-Identifier: AGPL-3.0-only; modified 2026-11-18 */
+(()=>{'use strict';const build=window.FLIGHTDESK_BUILD;if(!build)return;
+const footer=document.createElement('footer');footer.id='app-version';footer.className='card';footer.style.cssText='margin:1rem; padding:1rem; font-size:0.9rem';
+const label=document.createElement('strong');label.textContent='Flightdesk UK v'+build.appVersion;footer.append(label,document.createTextNode(' · '));
+const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Source code & licence · About this version';details.append(summary);
+const origin=document.createElement('p');origin.textContent='Project initiated by Yves Plancherel / ENDIAN-LAB. First-party code: AGPL-3.0-only. Copyright and brand ownership details remain subject to confirmation; see notices.';details.append(origin);
+const meta=document.createElement('p');meta.textContent='Loaded build: '+build.buildId+' · Release build date (UTC): '+build.buildDate+' · Source revision: '+(build.sourceRevision||'ZIP build; source fingerprint '+build.sourceFingerprint);details.append(meta);
+const links=[[build.sourceArchive,'Download this version’s source (online)'],['legal/LICENSE','AGPL-3.0 licence'],['legal/COPYRIGHT.md','Copyright & origin'],['legal/NAME-AND-LOGO-POLICY.md','Name & logo policy'],['legal/THIRD-PARTY-NOTICES.md','Third-party notices'],['legal/CHANGELOG.md','Release notes']];
+for(const [href,text]of links){const p=document.createElement('p'),a=document.createElement('a');a.href=href;a.textContent=text;if(href.endsWith('.zip'))a.download='';p.append(a);details.append(p);}
+const copy=document.createElement('button');copy.type='button';copy.textContent='Copy version details';copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(JSON.stringify(build,null,2));copy.textContent='Version details copied';}catch(e){copy.textContent='Copy unavailable; select the version details above';}});details.append(copy);
+const pending=document.createElement('p');pending.setAttribute('role','status');details.append(pending);footer.append(details);document.body.append(footer);
+fetch('version.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(remote=>{if(remote.buildId!==build.buildId)pending.textContent='Server build available: v'+remote.appVersion+'. You are running v'+build.appVersion+'. Use the app’s safe update action when your work is saved and no flight is active.';}).catch(()=>{pending.textContent='Offline or update check unavailable. The loaded version shown above remains accurate.';});
+})();

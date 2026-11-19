@@ -1,3 +1,8 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+ * Flightdesk UK project origin: Yves Plancherel / ENDIAN-LAB.
+ * Copyright ownership and third-party material: see COPYRIGHT.md and THIRD-PARTY-NOTICES.md.
+ * Modified for release 1.0.0 on 18 November 2026.
+ */
 /* Manufacturer specifications are informational; measurements and serviceability are never inferred. */
 (function(root){const table='https://support.dji.com/help/content?customId=01700006564&lang=en&paperDocType=ARTICLE&re=GB&spaceId=17',enterprise='https://enterprise-insights.dji.com/blog/enterprise-drones-tips-and-tricks';
 const batteries={};function add(id,label,models,capacity,voltage,maxCharge,cells,source=table,notes='',policy='operator'){batteries[id]={id,label,models,capacity,voltage,maxCharge,cells,source,notes,policy};}

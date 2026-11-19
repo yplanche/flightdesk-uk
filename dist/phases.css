@@ -1,0 +1,12 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+:root{--warning-purple:#6c3c8f;--warning-bg:#f3eafb}
+.flight-clock{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;border:1px solid #bfd5d3;border-radius:12px;padding:1.25rem;background:#edf7f5;margin:1rem 0}.flight-clock output{font-size:clamp(1.8rem,5vw,3rem);font-weight:750;letter-spacing:-.04em}.flight-clock span{font-size:1rem;color:#345a58}
+#flightcard .body,#postflightcard .body{display:grid;gap:1rem}#flightcard details,#postflightcard details{border:1px solid #d3dfdf;border-radius:8px;padding:1rem}#flightcard .inline{flex-wrap:wrap}#flightcard p,#postflightcard p{margin:0}#postflightcard #debriefeditor{display:grid;gap:1rem}
+.forecast-exceedance td{background:#f3eafb;color:#542b73}.section-warning{background:#fbf7ff!important;border-color:#ad83c9!important}.section-warning>summary{background:#f3eafb!important;color:#542b73!important}.derived-check{background:#f2f6f7;padding:.7rem;border-radius:8px}.derived-check input{opacity:1}#operationscope{border-left:4px solid #17635b}
+.phase-banner{padding:1rem;border-left:5px solid #6c3c8f;background:#f3eafb;color:#452961;position:relative}.phase-banner[hidden]{display:none}#maintenanceitems{display:grid;gap:1rem}#maintenancepanel{border-left:4px solid #a23c40;padding:1rem;background:#fff6f4}.flight-report-table{width:100%;font-size:1rem}
+#app-version{margin-inline:auto!important;max-width:1100px;font-size:1rem!important}#app-version a{overflow-wrap:anywhere}input,select,textarea{font-size:max(1rem,16px)}.hint,.small{font-size:.9rem}.label{font-size:.95rem}
+@media(min-width:1100px){body.has-flight-navigation #app-version{margin-right:280px!important}}@media(max-width:650px){#flightcard .inline .btn{flex:1 1 45%;min-height:48px}.flight-clock{display:block}.flight-clock span{display:block;margin-top:.5rem}}
+@media print{#flightcard details,#postflightcard details{display:block}#flightcard button,#postflightcard button{display:none}.phase-banner{position:static}}
+
+[hidden]{display:none!important}#app-version{margin-left:280px!important;margin-right:32px!important}#flightcard .section-completion,#postflightcard .section-completion{display:none}.workflow-ordered #weathercard>.field-section>.weatherbody{padding:18px 20px}#postflightcard .check{margin:0}
+@media(max-width:900px){#app-version{margin-left:20px!important;margin-right:20px!important}}

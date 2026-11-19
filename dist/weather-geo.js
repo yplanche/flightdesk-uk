@@ -1,3 +1,8 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+ * Flightdesk UK project origin: Yves Plancherel / ENDIAN-LAB.
+ * Copyright ownership and third-party material: see COPYRIGHT.md and THIRD-PARTY-NOTICES.md.
+ * Modified for release 1.0.0 on 18 November 2026.
+ */
 (function(root){'use strict';
 const R=6371008.8,rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI;
 function valid(p){return !!p&&typeof p.lat==='number'&&typeof p.lon==='number'&&Number.isFinite(p.lat)&&Number.isFinite(p.lon)&&p.lat>=-85.05112878&&p.lat<=85.05112878&&p.lon>=-180&&p.lon<=180;}
