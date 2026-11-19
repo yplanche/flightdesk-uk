@@ -9,6 +9,7 @@ def run(command):
     subprocess.run(command, cwd=root, check=True)
 try:
     if args.command == 'build':
+        run([sys.executable, 'scripts/check-source.py'])
         run([sys.executable, 'scripts/release-metadata.py'])
         run([sys.executable, 'scripts/update-pwa-version.py'])
         run([sys.executable, 'scripts/release-metadata.py', 'archive'])

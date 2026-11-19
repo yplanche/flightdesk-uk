@@ -13,7 +13,7 @@ def source_files():
         if any(x.startswith('.') for x in parts) and rel not in ('.gitignore','.dockerignore'): continue
         top=parts[0]
         if len(parts)==1:
-            allowed=rel.endswith('.md') or rel.startswith('test-') and rel.endswith('.cjs') or rel in ('package.json','wrangler.toml','Dockerfile','LICENSE','RELEASE.json','SOURCE-INFO.json','IMPLEMENTATION-SPECIFICATION.txt','start-linux.sh','start-macos.command','start-windows.bat','.gitignore','.dockerignore')
+            allowed=rel.endswith('.md') or rel.startswith('test-') and rel.endswith('.cjs') or rel in ('package.json','wrangler.toml','Dockerfile','LICENSE','RELEASE.json','SOURCE-INFO.json','SOURCE-MANIFEST.json','IMPLEMENTATION-SPECIFICATION.txt','start-linux.sh','start-macos.command','start-windows.bat','.gitignore','.dockerignore')
         elif top=='dist':
             allowed=p.suffix in ('.js','.css','.html','.webmanifest','.png')
         elif top=='scripts': allowed=p.suffix in ('.py','.mjs')

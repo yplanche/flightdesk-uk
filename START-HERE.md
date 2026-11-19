@@ -1,4 +1,17 @@
-# Start here
+# Flightdesk UK 1.0.2 — complete upload
+
+For your current GitHub/Cloudflare installation, read UPLOAD-TO-GITHUB.md. This package includes both the 1.0.1 build-check fix and the complete matching application source.
+
+Extract the ZIP. GitHub web uploads accept at most 100 files at a time: upload the complete dist folder first, then upload scripts, worker, third-party and the loose root files as a second batch, all at repository root. Wait for the build of the final commit. Do not select only the loose files at the top level. Do not upload just the ZIP. Before committing, check that GitHub lists dist/airspace-core.js and dist/lifecycle.js among the uploaded paths.
+
+For a more reliable folder update, use GitHub Desktop: clone your repository, copy the extracted package contents into its local folder (replace matching files; keep .git and any existing .github configuration), review the changes, commit and push.
+
+The build command remains python3 scripts/manage.py build && python3 scripts/manage.py test.
+The deploy command remains npx wrangler@4 deploy.
+
+The new source consistency check will explain missing files or incompatible airspace exports before building. Keep tests enabled.
+
+## Independent local use
 
 **To run the complete app now:** install Node.js 22+ from https://nodejs.org/, open a terminal in this folder, run `node scripts/preview-airspace-worker.mjs`, then open http://127.0.0.1:4173/.
 

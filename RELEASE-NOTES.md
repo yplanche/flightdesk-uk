@@ -1,3 +1,7 @@
+# Patch 1.0.2 — 19 November 2026
+
+This complete package includes the Cloudflare fingerprint correction from 1.0.1. Required source files and the airspace API are checked before building, so partial/mixed uploads produce an actionable error. Upload the full dist, scripts and worker folders along with root files. The app/data schema and flight-planning behaviour are otherwise retained.
+
 # Flightdesk UK v1.0.0 — 18 November 2026
 
 ## What changed

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 — 2026-11-19
+
+Supply a complete consistent release and validate required source files and airspace exports before building, so partial/mixed uploads produce actionable errors. Includes the 1.0.1 Cloudflare fingerprint fix. No flight-record schema changes.
+
 ## 1.0.1 — 2026-11-19
 
 Fix Cloudflare build failure caused by enforcing a local source seal during ordinary builds. Ordinary builds retain exact fingerprinted identity and source downloads; explicit release sealing remains strict. No flight-record schema changes.

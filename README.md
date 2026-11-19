@@ -1,6 +1,6 @@
 # Flightdesk UK — complete independent package
 
-Release **1.0.0 · 18 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
+Release **1.0.2 · 19 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
 
 This package can run without ChatGPT or the original Flightdesk website. It includes editable frontend source, the aviation-data proxy, prebuilt combined server, manufacturer catalogue and source links, PWA icons/manifest/service worker, tests, build tools and independent deployment configuration. Node.js runs the application without installing any npm packages. Python is used to rebuild and run the complete test suite.
 
@@ -86,4 +86,4 @@ The footer displays the actual loaded app version; About shows its build/source 
 
 The build generates a version-specific corresponding-source ZIP under `dist/releases/` and serves it with the app. Keep it available for the users of that deployed version; retain old release archives in subsequent deployments while older clients may remain installed. Modified/self-hosted deployments must rebuild and publish their own matching source archive. No repository URL is guessed. Versioned source fingerprints distinguish modified builds even before a new semantic version is assigned.
 
-After final tests, run `python3 scripts/seal-release.py` to bind this app version to its source fingerprint. Include RELEASE-IDENTITIES.json in the upload. Future changed source requires a version increment; rebuilds of the same source are allowed. Keep the original ZIP and source archives, and preserve earlier archive URLs while old installed clients remain in use.
+After final tests, run `python3 scripts/seal-release.py` to bind this app version to its source fingerprint. Include RELEASE-IDENTITIES.json in the upload. Intentional published changes should increment the app version. Ordinary builds warn rather than fail when the source differs from a local seal, and receive their own fingerprint/source archive. Explicit release sealing remains strict; rebuilds of the same source are allowed. Keep the original ZIP and source archives, and preserve earlier archive URLs while old installed clients remain in use.

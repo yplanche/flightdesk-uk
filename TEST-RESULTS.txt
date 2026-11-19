@@ -1,8 +1,3 @@
-Flightdesk UK v1.0.0
-Build: 1.0.0-9624b4fecfff70b6
-Final build and all 29 test files passed on 18 November 2026.
-Command: python3 scripts/manage.py build
-Command: python3 scripts/manage.py test
-Includes exact-source release safety and byte-identical repeated-build checks.
-Browser checks and validation limits: BUILD-VERIFICATION.txt.
-No production deployment or GitHub publication performed.
+Version 1.0.2: build and all 31 test files passed locally on 19 November 2026.
+Commands: python3 scripts/manage.py build; python3 scripts/manage.py test.
+No production deployment performed.
