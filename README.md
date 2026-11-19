@@ -2,7 +2,7 @@
 
 Release **1.0.2 · 19 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
 
-This package can run without ChatGPT or the original Flightdesk website. It includes editable frontend source, the aviation-data proxy, prebuilt combined server, manufacturer catalogue and source links, PWA icons/manifest/service worker, tests, build tools and independent deployment configuration. Node.js runs the application without installing any npm packages. Python is used to rebuild and run the complete test suite.
+This package can run without ChatGPT or the original Flightdesk website. It includes editable frontend source, the aviation-data proxy, prebuilt combined server, manufacturer catalogue and source links, PWA icons/manifest/service worker, tests, build tools and independent deployment configuration. Node.js runs the application without installing any npm packages. Python is used to rebuild and run the complete test suite. 
 
 ## Quick start on your laptop
 
