@@ -1,3 +1,46 @@
-Version 1.0.2: build and all 31 test files passed locally on 19 November 2026.
-Commands: python3 scripts/manage.py build; python3 scripts/manage.py test.
-No production deployment performed.
+Airspace input checks passed: deferred render, immediate invalidation, blur flush and status-before-acknowledgement order
+Session NOTAM tests passed: default/explicit windows, midnight/DST, old active notices, changes/cancellations, missing-notice uncertainty, archive/source age.
+14 airspace geometry, conservative NOTAM filtering, freshness and London DST checks passed
+Backup flight logs: distinct sorties and maintenance merge, duplicate idempotence, differing same-ID revisions reject, multiple active flights reject, invalid logs reject.
+Battery verification: documented unavailable-telemetry evidence, no failed/invalid reading bypass, committed spread quarantine, and profile-write rollback passed.
+Before-flight check: pending/failed requests cannot be cleared by old acknowledgement; current processed or newly independent review and matching scope required.
+Clear data: backup-first gate, disk acknowledgement, stale-backup invalidation, final cancellation, scoped local/session deletion and restart passed
+Cloudflare regression: missing optional files / changed text bytes build successfully with exact source identity; explicit sealing stays strict.
+14 completion checks passed: missing/optional/valid/conflicting input, pending suggestions, checked/reset declarations and ID expiry
+Corrupted storage: invalid/unsupported formats reject, original bytes retained, and subsequent profile/flight writes are guarded.
+Raw recovery export preserves original bytes even if the normal readable backup cannot be generated.
+38 readiness checks passed
+2 emergency equipment readiness checks passed
+Tri-state weather checks passed: five quantitative exceedances, acknowledgement, hard battery/freshness/missing-data gates and clear GO
+Declaration integration checks passed: preserved cell ticks, relevant-change resets, manual NOTAM evidence, operation binding and expiry
+Battery confirmation dependency checks passed: unrelated navigation/review preserved, relevant mass changes invalidate
+Draft/backup gate: record-action events excluded, planner input saved, unchanged draft stable, and deletion suppresses re-creation.
+18 equipment and voltage checks passed
+4 simplified flight-time conversion checks passed
+7 manufacturer-reference applicability checks passed
+6 battery-duration rounding checks passed
+6 criterion-default and override checks passed
+5 mission VLOS-limit checks passed
+6 automatic battery-budget checks passed
+6 voltage-warning and reference checks passed
+8 expanded manufacturer mapping and unknown-value checks passed
+Field workflow: explicit reuse, exclusions, audit source, changed-setup invalidation, minute-level chart and NOTAM midnight checks passed
+Flight identity and debrief switching passed: duplicate takeoff/cancel guards, readable legacy duplicates, Save/Discard/Cancel navigation, full selected identity and browser-local recovery drafts.
+Post-flight drafts passed: input autosave, separate immutable revisions, recovery, stale draft protection and failed-discard preservation.
+Start/charge checks passed: 30-minute shortcut across midnight, BST and DST; live charge required; controller-reading order
+Lifecycle: strict assessed-start gates, independent unassessed recovery, persisted elapsed time, abort/landing distinction, immutable briefing/debrief history, corrections and backup identity passed.
+Mission upload checks passed: individual snapshot, backup, crew merge, setup preservation and invalid-file rejection without draft replacement
+NOTAM refresh: manual press, pending, failed request with retained old list, successful parsing, stale response and incomplete window checks passed
+NOTAM relevance: overseas advice, UK security, altitude datums/buffer, terrain, GNSS, cancellations and unknown locations passed
+On-site conditions: assessment, actual-limit blockers, unknown states, public-only weather and preserved radar/legend checks passed
+PWA precache, live/auth bypass, cached document, update, manifest and backup checks passed
+Record backups: empty-browser recovery, duplicate-safe merge, archived WARNING, inventory recovery, invalid-file rejection and escaped readable report passed
+Record management: stable identity across briefing days, grouped phases, same-title isolation, legacy preservation, one-flight export/import with drafts, idempotence and safe HTML passed.
+Release safety: local environment files excluded, necessary source/build materials included and archive version identity matched.
+Release stability: unchanged rebuild preserves metadata, service worker, matching source archive and generated Worker bytes.
+19 boundary, category and requirement checks passed
+Source consistency: complete upload passes; missing airspace export and missing runtime module fail with actionable upload instructions.
+Storage integrity: >300 inventory preserved, >10MB backup accepted, duplicate-safe merge, prototype rejection, credentials redacted and retired weather settings inert.
+Version metadata, source archive and licensing checks passed.
+9 forecast-window checks passed
+Weather geography: 5 km geodesic spacing, lat/lon order, bounds, swapped-coordinate rejection and duplicate grouping passed

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 — 2026-11-19
+
+Stable per-flight record management across pre-flight, flight and post-flight; explicit save/resume/new-flight controls; grouped revision history and complete-flight exports/imports; recoverable debrief drafts and guarded switching; duplicate-save and repeated-take-off protection. Existing history is preserved. See RECORDS-GUIDE.md and RELEASE-NOTES.md.
+
 ## 1.0.2 — 2026-11-19
 
 Supply a complete consistent release and validate required source files and airspace exports before building, so partial/mixed uploads produce actionable errors. Includes the 1.0.1 Cloudflare fingerprint fix. No flight-record schema changes.

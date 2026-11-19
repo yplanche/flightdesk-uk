@@ -1,8 +1,12 @@
 # Flightdesk UK — complete independent package
 
-Release **1.0.2 · 19 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
+Release **1.1.0 · 19 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
 
 This package can run without ChatGPT or the original Flightdesk website. It includes editable frontend source, the aviation-data proxy, prebuilt combined server, manufacturer catalogue and source links, PWA icons/manifest/service worker, tests, build tools and independent deployment configuration. Node.js runs the application without installing any npm packages. Python is used to rebuild and run the complete test suite. 
+
+## Flight records
+
+See **RECORDS-GUIDE.md**. Save pre-flight briefing retains a plan under its stable flight reference; Resume continues it later. Flight events save immediately and post-flight debriefs have a separate save action. Saved flights groups all phases and exports one complete flight.
 
 ## Quick start on your laptop
 
@@ -51,8 +55,8 @@ The package does not provision a hosting account, domain, TLS certificate or acc
 The source ZIP contains **no personal flight records, pilot/operator IDs, battery inventory or unsaved form**. These live in browser-local storage on the original address.
 
 1. In the current app, save important missions.
-2. Open **Download all flight records** beside Print / save PDF.
-3. On your independent installation, use **Upload past flight records** to import that JSON.
+2. Open **Download all app data** beside Print / save PDF.
+3. On your independent installation, use **Import flight records / app backup** to import that JSON.
 4. For just a past mission's setup, use **Load setup from an earlier saved mission or file → Upload saved mission · JSON**. Select the imported record and choose Prefill new mission.
 
 Changing hostname, port, browser or device changes the storage origin. Backups are essential; there is no automatic cross-device synchronisation. Keep JSON backups private because they can contain IDs and coordinates.

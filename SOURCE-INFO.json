@@ -1,7 +1,7 @@
 {
   "application": "Flightdesk UK",
   "packaged_date": "2026-11-19",
-  "source_commit": "d2dce74ac52f833311e50c8451aaeced49f3f01b",
+  "source_commit": "ae27d4ff6ee8db34bae14cd2d963213af3421242",
   "package_changes": [
     "Leaflet 1.9.4 vendored with its licence and precached",
     "Independent run/build/deployment documentation and configuration added",
@@ -11,7 +11,8 @@
     "Manual flight lifecycle and post-flight debrief",
     "Versioned AGPL source offer, origin and branding notices",
     "Reusable setup profiles, draft recovery and protected local backups",
-    "Complete 1.0.2 source upload manifest, early API consistency checks and Cloudflare fingerprint fix"
+    "Complete 1.0.2 source upload manifest, early API consistency checks and Cloudflare fingerprint fix",
+    "Explicit stable flight identities, grouped phase records, resume/new workflow, debrief draft recovery and complete-flight export/import"
   ],
   "vendor_files": {
     "dist/vendor/leaflet/leaflet.js": {
@@ -43,7 +44,8 @@
       "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da"
     }
   },
-  "packaged_release": "Flightdesk UK v1.0.0 all-phases implementation; independent upload package, not production publication.",
-  "app_version": "1.0.2",
-  "source_commit_meaning": "Historical baseline commit from 13 November package; not a claim about this modified ZIP or current user GitHub HEAD."
+  "packaged_release": "Flightdesk UK v1.1.0 linked record management; independent upload package, not production publication.",
+  "app_version": "1.1.0",
+  "source_commit_meaning": "Actual user GitHub main baseline fetched read-only; this release includes subsequent uncommitted package changes.",
+  "historical_package_baseline": "d2dce74ac52f833311e50c8451aaeced49f3f01b"
 }

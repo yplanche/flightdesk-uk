@@ -1,3 +1,22 @@
+# Flightdesk UK v1.1.0 — 19 November 2026
+
+This compatible feature release makes pre-flight, flight and post-flight records explicit and linked by one stable flight identity. Prepared from the user's GitHub `main` commit `ae27d4ff6ee8db34bae14cd2d963213af3421242`; the repository and Cloudflare production were not modified remotely.
+
+- Renames the ambiguous save action to **Save pre-flight briefing** across readiness/navigation controls, with an explanation of its scope.
+- Adds a searchable Saved flights view with phase status, revision history, Resume, Create new from setup, complete-flight JSON and printable HTML exports.
+- Keeps identity/time when resuming an unflown plan; uses a different identity for another flight. Named current plans are saved before switching. Unchanged briefing saves avoid duplicates.
+- Prevents a second take-off or cancellation under an already executed flight identity. Legacy multiple-sortie histories remain readable and unchanged.
+- Separates browser-local unfinished debrief recovery drafts from saved revisions; adds explicit Save/Discard/Cancel protection when switching away.
+- Adds validated complete-flight imports and duplicate/conflict protection, retaining all-data backup and existing records.
+
+Read **RECORDS-GUIDE.md** for the workflow and **UPLOAD-TO-GITHUB.md** for deployment. Existing planning/airspace/weather gates are retained. This release is not a CAA certification or a new audit of regulations/manufacturer limits.
+
+## Compatibility and known limits
+
+Existing browser keys and briefing schema remain readable; new fields/stores are additive. Records are linked by original IDs, never titles. Old histories are not rewritten. All-data backup remains essential, especially before updating or changing website address. Data is browser-local; no automatic multi-device synchronisation is introduced. Different same-ID histories are rejected on import rather than silently overwritten. See RECORDS-GUIDE.md for details.
+
+This package contains source/build assets, not personal records. No remote upload, deployment, Git tag or account setting change was performed. Existing source/licensing notices and provider-service limits still apply.
+
 # Patch 1.0.2 — 19 November 2026
 
 This complete package includes the Cloudflare fingerprint correction from 1.0.1. Required source files and the airspace API are checked before building, so partial/mixed uploads produce an actionable error. Upload the full dist, scripts and worker folders along with root files. The app/data schema and flight-planning behaviour are otherwise retained.

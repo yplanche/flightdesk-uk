@@ -1,7 +1,7 @@
 {
   "format": "flightdesk-source-manifest",
   "version": 1,
-  "appVersion": "1.0.2",
+  "appVersion": "1.1.0",
   "requiredFiles": [
     "CHANGELOG.md",
     "COPYRIGHT.md",
@@ -33,6 +33,8 @@
     "dist/operations.js",
     "dist/phases.css",
     "dist/pwa.js",
+    "dist/record-core.js",
+    "dist/record-manager.js",
     "dist/rules.js",
     "dist/scope.js",
     "dist/style.css",
@@ -72,6 +74,7 @@
     "test-draft-backup-gate.cjs",
     "test-equipment.cjs",
     "test-field-workflow.cjs",
+    "test-flight-record-lifecycle.cjs",
     "test-flight-start-charge.cjs",
     "test-lifecycle.cjs",
     "test-mission-upload.cjs",
@@ -80,6 +83,7 @@
     "test-onsite-weather.cjs",
     "test-pwa.cjs",
     "test-record-backup.cjs",
+    "test-record-management.cjs",
     "test-release-safety.cjs",
     "test-release-stability.cjs",
     "test-rules.cjs",

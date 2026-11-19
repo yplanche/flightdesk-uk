@@ -1,6 +1,16 @@
-Flightdesk UK 1.0.2 — 19 November 2026
-Complete source and build validated locally. 31 test files passed.
-Regression reproduces a missing londonDateTime export and missing lifecycle.js: source preflight rejects both with actionable instructions.
-Regression also checks omitted optional dotfiles/CRLF differences do not block ordinary builds.
-No flight-planning UI or browser-record schema changes from 1.0.0. Prior UI checks documented in RELEASE-NOTES.md.
-GitHub repository/Cloudflare production not accessed or modified. The user build log identifies mixed/incompatible source but not the exact upload operation that caused it.
+Flightdesk UK 1.1.0 — 19 November 2026
+Baseline: user GitHub main ae27d4ff6ee8db34bae14cd2d963213af3421242, fetched read-only.
+33 test files passed (full suite), including two new record-management/lifecycle regression files.
+Browser QA with synthetic local records:
+- Saved tomorrow's incomplete briefing; unchanged save retained one revision.
+- Created another flight using setup: new full ID; original retained.
+- Resumed first plan: original full ID, date and 10:15 time retained.
+- Opened historical flight/debrief separately from the pre-flight editor.
+- Unsaved debrief switch offered Save/Discard/Cancel; Cancel retained text and Save persisted before switching.
+- Unfinished debrief recovered after reload; saved debrief revisions remained separate.
+- Synthetic UNASSESSED take-off, landing and completed debrief grouped under one flight ID with launch briefing and two events.
+- Archived pre-flight save disabled after recorded take-off/outcome.
+- New blank plan completion returns to orange; saved record search/filter and complete-flight JSON download work.
+- No application console errors in checked browser session.
+No real aircraft operated; no GO manufactured; no live-data provider/compliance audit claimed.
+No GitHub push or Cloudflare deployment performed. Source ZIP contains no browser records.
