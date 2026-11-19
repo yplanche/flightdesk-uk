@@ -9,7 +9,9 @@ def run(command):
     subprocess.run(command, cwd=root, check=True)
 try:
     if args.command == 'build':
+        run([sys.executable, 'scripts/release-metadata.py'])
         run([sys.executable, 'scripts/update-pwa-version.py'])
+        run([sys.executable, 'scripts/release-metadata.py', 'archive'])
         run([sys.executable, 'scripts/build-airspace-worker.py'])
     else:
         node = shutil.which('node')

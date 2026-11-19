@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),B=require('./dist/backup.js'),C=require('./dist/lifecycle-core.js');
+const sortie=(id,phase='CANCELLED')=>({id,phase,createdAt:'2026-11-18T10:00:00Z',takeoffAt:phase==='AIRBORNE'?'2026-11-18T10:00:00Z':null,landingAt:null,events:[],debriefs:[]});
+const encode=sorties=>JSON.stringify({version:1,sorties});const incoming={'flightdesk-sorties-v1':encode([sortie('new')]),'flightdesk-maintenance-v1':JSON.stringify({version:1,events:[{id:'new-maintenance',action:'quarantine'}]})};
+let r=B.mergeSettings({'flightdesk-sorties-v1':encode([sortie('existing')]),'flightdesk-maintenance-v1':JSON.stringify({version:1,events:[{id:'prior-maintenance',action:'quarantine'}]})},incoming,C.validate);assert.equal(JSON.parse(r['flightdesk-sorties-v1']).sorties.length,2);assert.equal(JSON.parse(r['flightdesk-maintenance-v1']).events.length,2);
+r=B.mergeSettings(r,incoming,C.validate);assert.equal(JSON.parse(r['flightdesk-sorties-v1']).sorties.length,2);assert.equal(JSON.parse(r['flightdesk-maintenance-v1']).events.length,2);
+assert.throws(()=>B.mergeSettings({'flightdesk-sorties-v1':encode([sortie('conflict')])},{'flightdesk-sorties-v1':encode([{...sortie('conflict'),debriefs:[{recordedAt:'2026-11-18T11:00:00Z',note:'different revision'}]}])},C.validate),/Conflicting sortie ID/);
+assert.throws(()=>B.mergeSettings({'flightdesk-sorties-v1':encode([sortie('active-one','AIRBORNE')])},{'flightdesk-sorties-v1':encode([sortie('active-two','AIRBORNE')])},C.validate),/More than one active flight/);
+assert.throws(()=>B.mergeSettings({}, {'flightdesk-sorties-v1':'{"version":1,"sorties":[{"id":"bad"}]}'}, C.validate),/Invalid sortie/);
+assert.throws(()=>B.mergeSettings({'flightdesk-maintenance-v1':JSON.stringify({version:1,events:[{id:'same',action:'quarantine'}]})},{'flightdesk-maintenance-v1':JSON.stringify({version:1,events:[{id:'same',action:'return-to-service'}]})},C.validate),/Conflicting maintenance event/);
+console.log('Backup flight logs: distinct sorties and maintenance merge, duplicate idempotence, differing same-ID revisions reject, multiple active flights reject, invalid logs reject.');

@@ -1,6 +1,6 @@
 # Flightdesk UK — complete independent package
 
-Snapshot: **13 November 2026**, latest release including browser-storage guidance, complete backup/restore, backup-gated data deletion, GO/WARNING/NO-GO weather screening, battery completion fixes, persistent navigation, weather maps and NOTAM/manual-briefing checks. Start with **START-HERE.md**.
+Release **1.0.0 · 18 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
 
 This package can run without ChatGPT or the original Flightdesk website. It includes editable frontend source, the aviation-data proxy, prebuilt combined server, manufacturer catalogue and source links, PWA icons/manifest/service worker, tests, build tools and independent deployment configuration. Node.js runs the application without installing any npm packages. Python is used to rebuild and run the complete test suite.
 
@@ -61,7 +61,7 @@ Changing hostname, port, browser or device changes the storage origin. Backups a
 
 Independent means you control the code and hosting. It does not make live aviation/weather services permanent or freeze CAA rules/manufacturer manuals. The map library and ZIP decoder are bundled; basemap tiles, weather/radar, postcode lookups and aviation feeds still need internet and their providers. **DATA-SOURCES.md** lists endpoints, attribution and update responsibilities.
 
-The PWA caches the application shell, not live weather/NOTAM feeds. Offline use remains NO-GO. The app is planning support, not CAA approval or flight clearance. Manufacturer values and class/rule guidance need ongoing review.
+The PWA caches the application shell, not live weather/NOTAM feeds. Offline mode cannot issue a new assessed GO. An already-started manual timer and local flight log continue offline. The app is planning support, not CAA approval or flight clearance. Manufacturer values and class/rule guidance need ongoing review.
 
 ## Folder guide
 
@@ -77,3 +77,13 @@ The PWA caches the application shell, not live weather/NOTAM feeds. Offline use 
 - `FILES.sha256`: checksums for the package contents.
 
 No hosting credentials or original Site project configuration are included. Git history is not required to rebuild; you can initialise your own repository from this folder.
+
+## Version, source and licence
+
+First-party application code: **AGPL-3.0-only**, subject to the ownership confirmation described in [COPYRIGHT.md](COPYRIGHT.md). This release does not assert a verified exclusive copyright holder. See [LICENSE](LICENSE), [NAME-AND-LOGO-POLICY.md](NAME-AND-LOGO-POLICY.md) and [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). Anyone may use the code commercially; applicable distribution and modified-network-service source/notice obligations remain.
+
+The footer displays the actual loaded app version; About shows its build/source fingerprint and source download. `package.json` is the single application-version authority. Run `python3 scripts/release.py patch` (or `minor` / `major`) once when preparing a changed release; edit the resulting changelog entry, then build and test. Builds do not bump versions. Tag the verified release as `vX.Y.Z` only when ready; no tag is created automatically.
+
+The build generates a version-specific corresponding-source ZIP under `dist/releases/` and serves it with the app. Keep it available for the users of that deployed version; retain old release archives in subsequent deployments while older clients may remain installed. Modified/self-hosted deployments must rebuild and publish their own matching source archive. No repository URL is guessed. Versioned source fingerprints distinguish modified builds even before a new semantic version is assigned.
+
+After final tests, run `python3 scripts/seal-release.py` to bind this app version to its source fingerprint. Include RELEASE-IDENTITIES.json in the upload. Future changed source requires a version increment; rebuilds of the same source are allowed. Keep the original ZIP and source archives, and preserve earlier archive URLs while old installed clients remain in use.

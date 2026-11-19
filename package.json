@@ -3,11 +3,14 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/preview-airspace-worker.mjs",
-    "build": "python3 scripts/update-pwa-version.py && python3 scripts/build-airspace-worker.py",
+    "build": "python3 scripts/manage.py build",
     "start": "node scripts/preview-airspace-worker.mjs",
-    "test": "python3 scripts/manage.py test"
+    "test": "python3 scripts/manage.py test",
+    "release": "python3 scripts/release.py"
   },
   "engines": {
     "node": ">=22"
-  }
+  },
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only"
 }

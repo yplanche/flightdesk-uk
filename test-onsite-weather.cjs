@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const {assess}=require('./dist/onsite.js');
+const limits={maxwind:12,opwind:10,mintemp:-10,maxtemp:40,minvis:500};
+const review={status:'acceptable',reviewedAt:'2026-11-18T12:00:00Z',conditions:{},note:''};
+assert.equal(assess(review,limits).valid,true);
+for(const status of ['unreviewed','uncertain','unacceptable'])assert.equal(assess({...review,status},limits).valid,false);
+assert.equal(assess({...review,reviewedAt:null},limits).valid,false);
+for(const conditions of [{wind:10},{gust:11},{temperature:41},{temperature:-11},{visibility:499},{wind:-1},{visibility:-1}])assert.equal(assess({...review,conditions},limits).valid,false);
+assert.equal(assess({...review,conditions:{wind:9,gust:9.9,temperature:20,visibility:600}},limits).valid,true);
+const map=fs.readFileSync('dist/weather-map.js','utf8'),html=fs.readFileSync('dist/index.html','utf8');
+assert(!/sessionKey|customer-api|wxkey|wxlink|bookmarkKey/.test(map));
+assert(!/id="wx(key|link)|Paid subscriptions and weather-service links/.test(html));
+assert(map.includes('https://api.open-meteo.com/v1/forecast?'));
+assert(map.includes('radareligible')&&html.includes('RainViewer API terms'));
+assert(map.includes('legend()')&&map.includes('Geo.leaflet(point)'));
+console.log('On-site conditions: assessment, actual-limit blockers, unknown states, public-only weather and preserved radar/legend checks passed');

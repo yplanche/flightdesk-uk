@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),C=require('./dist/lifecycle-core.js'),backup=require('./dist/backup.js');
+const empty={version:1,sorties:[]},now='2026-11-18T12:00:00.000Z',briefing={id:'brief-one',missionId:'mission-one',projectTitle:'Test project',missionTitle:'Test flight',values:{duration:'15'}},args={id:'flight-one',now,briefing,readiness:{status:'go'},onsite:{valid:true},scope:{valid:true},beforeFlight:{valid:true},version:'1.0.0'};
+assert.throws(()=>C.start(empty,{...args,onsite:{valid:false}}),/Complete supported/);
+assert.throws(()=>C.start(empty,{...args,beforeFlight:{valid:false}}),/Complete supported/);
+assert.throws(()=>C.start(empty,{...args,readiness:{status:'no-go'}}),/Complete supported/);
+let state=C.start(empty,args);assert.equal(empty.sorties.length,0);assert.equal(state.sorties[0].assessment,'GO');assert.equal(state.sorties[0].events[0].appVersion,'1.0.0');assert.throws(()=>C.start(state,{...args,id:'two'}),/active flight/);
+assert.equal(C.elapsed(state.sorties[0],Date.parse(now)+25*60000),25,'Screen lock/reload does not stop elapsed flight time');
+state=C.event(state,'flight-one',{eventId:'abort-one',type:'abort',now:'2026-11-18T12:02:00Z'});assert.equal(state.sorties[0].phase,'AIRBORNE');assert.equal(state.sorties[0].landingAt,null,'Aborting does not invent landing');
+assert.throws(()=>C.event(state,'flight-one',{eventId:'bad-landing',type:'landing',now:'2026-11-18T12:03:00Z',occurredAt:'2026-11-18T11:59:00Z'}),/Landing/);
+state=C.event(state,'flight-one',{eventId:'land-one',type:'landing',now:'2026-11-18T12:03:00Z'});assert.equal(C.elapsed(state.sorties[0]),3);const immutableBrief=JSON.stringify(state.sorties[0].briefing);
+state=C.debrief(state,'flight-one',{recordedAt:'2026-11-18T12:04:00Z',outcome:'completed',landingCharge:30,nothingToReport:true,defect:false,note:'',followup:''});assert.equal(state.sorties[0].phase,'DEBRIEF_COMPLETE');assert.equal(JSON.stringify(state.sorties[0].briefing),immutableBrief);
+assert.throws(()=>C.debrief(state,'flight-one',{recordedAt:now,defect:true,nothingToReport:true,note:'fault',landingCharge:30}),/both/);
+state=C.correct(state,'flight-one',{takeoffAt:now,landingAt:'2026-11-18T12:04:00Z',reason:'Controller log checked',now:'2026-11-18T12:05:00Z',eventId:'correction'});assert.equal(C.elapsed(state.sorties[0]),4);assert.equal(state.sorties[0].events.at(-1).previous.landingAt,'2026-11-18T12:03:00Z');assert.equal(state.sorties[0].debriefs.length,1);
+const recovered=C.start(empty,{...args,unassessed:true,readiness:{status:'no-go'},onsite:null,scope:null,beforeFlight:null,notes:'Actual take-off noted by ground crew'});assert.equal(recovered.sorties[0].assessment,'UNASSESSED');assert.equal(recovered.sorties[0].readiness.status,'no-go');
+const unknown=C.event(recovered,'flight-one',{eventId:'unknown',type:'outcome-unknown',now:'2026-11-18T12:03:00Z',notes:'Landing time not recorded'});assert.equal(C.elapsed(unknown.sorties[0]),null);
+const merged=backup.mergeSettings({'flightdesk-sorties-v1':JSON.stringify(state)},{'flightdesk-sorties-v1':JSON.stringify(state)},C.validate);assert.deepEqual(C.validate(JSON.parse(merged['flightdesk-sorties-v1'])),state);
+assert.throws(()=>C.validate({...state,sorties:[...state.sorties,...state.sorties]}),/Invalid sortie/);
+console.log('Lifecycle: strict assessed-start gates, independent unassessed recovery, persisted elapsed time, abort/landing distinction, immutable briefing/debrief history, corrections and backup identity passed.');

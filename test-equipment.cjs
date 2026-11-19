@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),e=require('./dist/equipment.js');
-const a=JSON.parse(fs.readFileSync('dist/aircraft.js','utf8').replace(/^window.DJI_AIRCRAFT = /,'').replace(/;\s*$/,''));
+const catalogueContext={window:{}};require('node:vm').runInNewContext(fs.readFileSync('dist/aircraft.js','utf8'),catalogueContext);const a=catalogueContext.window.DJI_AIRCRAFT;
 const model=name=>a.find(x=>x.name===name);let count=0;const check=(v)=>{assert(v);count++};
 check(JSON.stringify(e.classOptions(model('DJI Mavic 3 Multispectral (3M)')))==='["C2","legacy"]');
 check(model('DJI Mavic 3 Multispectral (3M)').defaultClass==='C2');

@@ -8,7 +8,6 @@ The application source contains the exact source URLs and manufacturer reference
 | Basemap | `https://tile.openstreetmap.org/{z}/{x}/{y}.png` | Internet and compliance with attribution/tile usage policy; no offline tile archive |
 | Postcodes | `https://api.postcodes.io/` | Public postcode lookup; postcode input goes to the provider |
 | Weather | `https://api.open-meteo.com/v1/forecast` | Internet; public endpoint is subject to non-commercial/provider terms |
-| Optional paid weather | `https://customer-api.open-meteo.com/v1/forecast` | User supplies their own API entitlement/key for that session; none included |
 | Radar metadata | `https://api.rainviewer.com/public/weather-maps.json` | Eligibility declaration and internet; recent observations, not a flight-time forecast |
 | Radar imagery | `https://tilecache.rainviewer.com/` | Metadata-selected paths, coverage mask and attribution; subject to provider terms |
 | UK airspace | `https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/digital-datasets/` | Server downloads current UAS/AIP ZIP/KMZ/KML, extracts and screens; no packaged live dataset |
@@ -22,3 +21,6 @@ The core PWA cache is an explicit allowlist. It deliberately excludes live aviat
 Server airspace feeds have an in-memory cache; NOTAM responses are fetched on demand and are not made into an offline clearance cache. Schemas, filenames, API limits and access terms can change. If a supplier changes, update the relevant parser/endpoints and test conservatively before using the results.
 
 Local mission/profile/battery storage is in the visitor's browser, not a shared server database. Independent public hosting does not itself provide accounts, synchronisation or credential verification. Precisely located requests go to weather/map providers as described in the app. Avoid putting keys or personal data into source code or public repositories.
+
+
+Version 1.0.0 removes user-paid weather connections and credentials. Open-Meteo public API eligibility and RainViewer eligibility still apply; an AGPL code licence does not grant service access rights. Commercial hosting/use needs a provider-terms review; use a compliant operator-hosted forecast backend or independent official sources if public API eligibility cannot be met. No user subscription controls are included.

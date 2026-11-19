@@ -1,0 +1,443 @@
+FLIGHTDESK UK: ALL-PHASES IMPLEMENTATION PROMPT
+Version 1.4 | Revised 18 November 2026
+Revisions: add explicit application version tracking and release history; retain AGPL-3.0-only licensing, copyright/project-origin notices and a separate name/logo policy; retain removal of paid-weather subscriptions, API-key entry and weather-service bookmark management; replace fixed +/-2-hour NOTAM screening with operating-session coverage and before-each-flight change checks.
+
+HOW TO USE
+Give this entire document to the AI coding agent with access to the current Flightdesk repository. It is an implementation specification, not a request to certify compliance. Verify the current source and applicable official guidance before implementation. The requirements below supersede earlier interface choices where explicitly identified.
+
+BEGIN IMPLEMENTATION PROMPT
+
+1. TASK AND OUTCOME
+
+Act as a senior web-app engineer, aviation human-factors designer and careful technical reviewer. Update Flightdesk UK into a streamlined, browser-local workspace covering preparation, pre-flight briefing, in-flight recording and post-flight debriefing. Implement and test the changes, rather than returning only a plan.
+
+The app supports ordinary UK Open Category operations. Its assessments represent recorded planning readiness, never CAA approval, airspace clearance or a guarantee of safe flight. Continue supporting GO (green), WARNING (purple) and NO-GO (red), with clear text and icons. Unresolved legal restrictions, aircraft faults and unsupported operations must not become GO through acknowledgement.
+
+Reduce duplicate inputs. Retain distinct safety decisions and evidence. Make repeated flights at the same site fast without carrying forward live checks as though they had been performed again. Preserve existing users' records and data privacy.
+
+2. TARGET, BASELINE AND CHANGE CONTROL
+
+The user's production deployment is https://flightdesk-uk.endianearth.workers.dev/ and its source is the user's GitHub repository named flightdesk-uk. The group website at https://endian.earth is a separate project. Do not edit the group website, its DNS, Squarespace nameservers or unrelated repositories as part of this work.
+
+Locate and verify the current authorised repository; do not guess its owner or use an older private ChatGPT-hosted Site as the canonical target. The independent ZIP previously supplied is a fallback source snapshot, not proof that it matches current GitHub HEAD. If repository access is unavailable, implement against a clearly identified local snapshot and deliver an updated package/patch with exact upload instructions. Do not claim the Cloudflare deployment was updated when it was not.
+
+Inspect repository instructions, build configuration, frontend, server routes, service worker, storage formats, backup/import and tests. Run baseline tests before making changes. Record the base commit and app version. Use an isolated branch when appropriate. Do not bundle real users' records, IDs, API keys or hosting credentials in commits, fixtures or deliverables.
+
+Preserve existing functionality, except for paid-weather and subscription-link features explicitly removed in section 10A: postcode/GPS site selection; aircraft and battery manufacturer references; class eligibility; weather charts/maps/legends; NOTAM and airspace screening; manual briefing evidence; local profiles and inventory; replacement history; import/export; PWA; accessible navigation; privacy/storage help; backup-gated deletion.
+
+3. VERIFY GUIDANCE AND REQUIREMENTS
+
+Use current CAA primary sources for regulatory statements and exact manufacturer documentation for aircraft/battery claims. Record source URL, revision/review date, scope and confidence. Distinguish statutory requirements, operator procedures, manufacturer conditions and app design choices. Do not describe every app-required field as legally required by the CAA.
+
+Do not invent manufacturer limits or apply a maintenance criterion universally. Unknown data must remain visibly unverified and require an appropriate documented procedure where a safety gate needs it. Source changes must be reviewable. Do not add new periodic online dependencies solely to fetch legal wording during each flight.
+
+4. VLOS: FIXED SCOPE, NOT A REPEATED YES/NO QUESTION
+
+Remove the routine 'Direct VLOS planned? Yes/No' dropdown from supported Open Category planning. Replace it with an explicit scope statement: 'Open Category planning: Visual Line of Sight (VLOS) operations only.' This is a scope constraint, not evidence the user has actually assessed the route.
+
+Explain VLOS in plain language based on current CAA guidance: maintain the necessary direct unaided view of the aircraft and awareness of surrounding airspace; camera video alone does not establish VLOS; normal corrective spectacles/contact lenses are permitted. Do not invent a universal numeric VLOS distance or infer VLOS from the mission-area radius.
+
+Include VLOS once in the consolidated final pre-flight declaration, for example: 'I have assessed the route and conditions, can maintain the applicable VLOS requirements throughout the flight, and have reviewed the remaining operational checks.' The exact wording must accommodate a properly supported FPV observer arrangement. Do not add another mandatory VLOS checkbox elsewhere.
+
+Retain an optional operator-imposed distance limit with distance, basis/source and applicability. A distance entry does not establish VLOS. Invalidate the relevant confirmation when route/site, aircraft, distance restriction or other applicable conditions change.
+
+Provide a clearly secondary 'My operation needs a different assessment / I cannot meet these conditions' route. BVLOS, unsupported Specific Category, Certified and association-authorised operations must be labelled OUTSIDE SUPPORTED SCOPE; preserve drafts/export but do not issue an assessed GO/WARNING or enable an assessed launch through this workflow. Link to CAA authorisation guidance. Entering an authorisation reference alone must not unlock BVLOS readiness. Specific Category is not synonymous with BVLOS: some authorised operations are VLOS but still outside this app's supported assessment.
+
+If FPV is retained, conditionally request an observer arrangement and briefing acknowledgement only when applicable. Follow the CAA requirements for the observer's position, communication and direct view. An observer does not extend the supported operating range or turn BVLOS into VLOS. Do not implement EVLOS/BVLOS by distributing observers along a route.
+
+For migration, an old explicit VLOS 'no/unsure' must not silently become supported VLOS. Preserve it as an unresolved scope issue until the user explicitly establishes a new supported plan. Historical records remain as recorded.
+
+5. DATA MODEL AND PHASES
+
+Separate persistent reusable entities from per-flight observations:
+- Project and site profiles.
+- Aircraft assets: model plus optional nickname, asset/serial identifier and stable ID.
+- Payload/operating profiles linked to a compatible aircraft/configuration.
+- Pilot/operator profiles and relevant competence/expiry records.
+- Individual battery packs and matched-set membership.
+- Missions grouping related work and individual sorties, each with a unique stable ID.
+- Immutable pre-flight briefing revisions, flight events and post-flight/debrief revisions.
+
+Keep model-level manufacturer specifications distinct from asset identity, pilot-validated configuration and measured current-flight values. Avoid copying manufacturer fields into user-owned data without provenance.
+
+Use a clear lifecycle such as DRAFT -> READY or REVIEWED_WITH_WARNINGS -> AIRBORNE -> LANDED -> DEBRIEF_COMPLETE. Support cancellation/postponement before take-off and an explicit unresolved/recovery state after interruption. Derive readiness separately from lifecycle. A draft may be NO-GO; a landed flight is not 'NO-GO because its start time is in the past'. Do not use a single status variable for both safety readiness and phase.
+
+Each take-off/landing pair is a sortie. Consecutive flights at one site share setup where appropriate, but have separate batteries/readings, actual times, declarations and outcome records.
+
+6. REUSABLE SETUP AND WORKFLOW
+
+Offer 'New mission', 'Use previous setup' and 'Next flight at this site' through one consistent mission-management surface. Define clearly whether each action saves a snapshot, applies an earlier setup or starts a new sortie. Never replace an unsaved draft silently.
+
+On reuse, carry project/site, selected asset, compatible payload, crew, applicable limits and reference notes. Reset live battery readings, flight-phase events, actual times, weather/airspace validity and final launch declarations. Explicitly label carried notes as references requiring review. Reuse a recent valid briefing only if area, time window, height, source validity and permissions still cover the new sortie, and record its provenance; otherwise require fresh review.
+
+Make the changed elements obvious. Use a brief 'What changed since the last flight?' summary rather than blanket-resetting unrelated checks. Save operating limits and supported endurance in named aircraft/payload profiles so users need not recreate them every flight. Applying a profile is a suggestion to review, not proof the current aircraft is configured accordingly.
+
+Allow pilot and operator to refer to the same person without duplicate typing, while keeping their separate registration roles and expiry requirements.
+
+7. CONSOLIDATE DECLARATIONS AND FIX INVALIDATION
+
+Create one authoritative completion/readiness model consumed by form labels, section headings, navigation, decision cards, saves and exports. Do not infer correctness from colours, copied text or previously checked UI state.
+
+Remove duplicate final checks already evidenced in crew/aircraft, battery, weather and airspace sections. Replace them with read-only status summaries linked to the originating checks. Keep one final operational declaration for the whole sortie. Preserve old checklist evidence when importing historical records.
+
+Maintain distinct physical battery inspection, current controller readings and flight-time assumptions where their meaning differs. A warning acknowledgement is conditional and does not replace the normal review.
+
+Ask about A2 competence only when relevant to the selected operating route; store reusable qualification information in the pilot profile. Do not erase a saved qualification when it is irrelevant to one mission.
+
+Build explicit dependencies for each declaration. Revalidate configuration when mass, payload, aircraft/class, fitted battery configuration or covered limits change. Revalidate cell checks when relevant readings/criterion/set change. Revalidate weather/airspace only when their relevant scope or source validity changes. Unrelated notes, navigation, backup actions or checking another box must not untick confirmations.
+
+Before resetting a confirmation, show or record why it became stale. A new physical inspection is different from revising a note. Test typing behaviour so re-rendering does not replace partially typed numbers or move focus.
+
+8. PRE-FLIGHT INFORMATION AND ORDER
+
+Use a coherent workflow: project/site/scope -> crew and aircraft/payload -> weather and airspace -> equipment/controller/batteries -> consolidated readiness -> save briefing/start flight.
+
+Retrieve weather and NOTAMs before endurance is complete. Explain the interval currently assessed, then update weather coverage when the calculated allowance becomes available. Replace the fixed +/-2-hour NOTAM filter with the operating-session briefing window specified in section 9, still independent of battery calculation. Once a supported flight interval is known, verify it is fully covered and require an extended/reviewed briefing when necessary. Preserve historical windows exactly as recorded.
+
+Keep critical inputs visibly distinct from optional information. Use short inline explanations, with details/examples collapsed. Keep scope, active warnings, unresolved issues and storage state visible. Do not impose an extra acknowledgement for every explanatory paragraph.
+
+9. AIRSPACE, NATS AND SESSION-BASED NOTAM REVIEW
+
+Replace the existing fixed +/-2-hour rule. This revision explicitly supersedes earlier instructions to preserve that fixed window. NOTAMs may be published, replaced or cancelled at short notice; they are not a once-daily product. The relevant question is whether an applicable notice's validity/activity overlaps the operating area, vertical envelope and flight interval, not whether it was published within the last two hours. Include relevant long-running notices issued days or weeks earlier.
+
+9.1. Operating session and briefing interval
+
+Use one operating-session record for repeated flights at a site, linked to its sorties. Reuse the existing selected date and estimated take-off time as the initial session start; do not make the user enter that start twice. Offer a compact session-end date/time that can be extended and handles crossing midnight. If the end is not known, suggest start plus two hours as an explicitly labelled, editable assumption; never imply it was confirmed or is a regulatory limit. Show the resulting absolute dates/times rather than an ambiguous 'next two hours'.
+
+Default the screening interval to 30 minutes before the session start until 30 minutes after its planned end. Label this as an app planning buffer, not a CAA-prescribed period. Permit a documented operator/profile adjustment without adding two routine mandatory fields. Example: site session 10:00-13:00; screening 09:30-13:30. Do not require users to repeat this setup for each battery change.
+
+Do not delay retrieval until mission duration/endurance is calculated. As the plan becomes more definite, check every sortie's entire take-off-to-landing and contingency interval against the reviewed session coverage. A flight outside that coverage, or a change of site/route, height or operating envelope, requires an expanded or new briefing. Expanding the end must never silently mark new hours reviewed. On the next day/site session, require the appropriate new review rather than treating yesterday's brief as current.
+
+Store UTC instants and display Europe/London with the offset and date where needed. NOTAM UTC times and London local times must not be compared as raw strings. Test BST/GMT, ambiguous/nonexistent local times, midnight and multi-day validity. Clearly distinguish session start/end from flight take-off time and forecast sample time.
+
+9.2. Freshness, coverage and publication are separate
+
+Display and preserve separately: request/download time; source collection generation/issue time; source/provenance (normal official briefing, official contingency collection or independent archive); supplier's documented/declared coverage; user-reviewed operating interval and review time; latest before-flight check time; relevant changes since review.
+
+A recent HTTP response is not proof of a recently generated or complete collection. A generated-at timestamp is not a notice's activation time. Do not filter solely on notice issue time, age of the download, or 'today'. Do not infer collection completeness from the latest expiry of any one notice or the absence of matching notices. Record unknown coverage honestly and distinguish source-declared coverage from a documented supplier coverage assumption.
+
+The existing NATS contingency PIB collection is published hourly and described as covering current notices and the following seven days; it is supplementary, not a live operational briefing service. Confirm the current documented feed behaviour at implementation. Show its expected cadence. A repeat download returning the same collection can be a successful check with no new data, not a failed request. Conversely, repeated successful downloads must not refresh the apparent source age or cure an old/incomplete collection. Any age/late-update threshold must be a disclosed app/operator policy, not presented as a CAA legal freshness limit or guarantee that no new restriction exists.
+
+The normal official NATS AIS briefing facility uses current briefing data and must be linked prominently for independent point/zone briefing. Do not automate authenticated access, scrape around access restrictions or add a paid subscription connection. Retain a documented fallback to official contingency sources and clearly identify any independent archive. A mirror's retrieval time never proves official currency.
+
+9.3. Checks at each phase and each sortie
+
+Support advance planning using notices valid during the future session, then obtain/review the latest appropriate briefing on site. Before each take-off, offer a clear 'Check for changes before this flight' action and record its result. Check that the reviewed area/height/session still covers this sortie, source status is acceptable or independent official review is documented, and newly relevant changes have been reviewed.
+
+Refresh on explicit request; modest background polling while the app is visible may help but must not replace the before-flight check or overload suppliers. Do not promise updates while a PWA is suspended/offline. Group concurrent requests and prevent old responses overwriting a newer site/session request. Do not require a new supplier generation timestamp every time the pilot checks between hourly publications.
+
+For repeated flights with unchanged scope, retain the prior reviewed notice set and highlight only new, replaced, cancelled, newly active or otherwise newly relevant notices. Keep unchanged relevant notices accessible without demanding that the user re-enter the same note or re-tick multiple acknowledgements. Notice IDs, NOTAMN/NOTAMR/NOTAMC relationships, content and reviewed versions must be tracked; comparing only list length or text display order is insufficient. Disappearance from an incomplete feed is not proof of cancellation. Deduplicate without losing amendment history.
+
+A delayed launch, changed operating envelope, expanded session, new applicable restriction, significant relevant amendment or loss of reliable coverage invalidates the affected review and explains why. Unrelated edits and an unchanged successful refresh must not erase unaffected declarations. Preserve the previous evidence for audit rather than overwriting it. A notice crossing into activity during the existing session must already be considered in the session review; make the upcoming activation visible.
+
+During AIRBORNE, show detected relevant changes only as advisory information with the applicable emergency/operating-plan context. Do not force the pilot into screen interaction, remotely command the aircraft or imply the app provides continuous airspace surveillance. After landing, retain what was known/reviewed before take-off and append later observations or missed-change notes without rewriting history.
+
+9.4. Relevance and interpretation
+
+Retain conservative geographic/altitude screening over the full intended route/operating area, return and contingency area. Keep the search circle, actual route/area and optional VLOS distance distinct. A route/polygon tool is optional if reliable; retain a radius fallback. Map visibility toggles must not suppress assessment.
+
+Evaluate interval overlap and activity schedules, including validity start/end, daily/repeated windows, PERM/estimated ends and cancellation/replacement where these are unambiguously supported. Link to the full notice and referenced AIC/Supplement/other documents. Do not attempt to automatically interpret unsupported free-text schedules as 'inactive'. Ambiguous schedules, unparsed location, unusual geometry or unclear limits must be retained for manual review with the uncertainty explained.
+
+Distinguish AGL height, AMSL altitude and flight levels; require appropriate terrain context for any definitive vertical exclusion. Do not exclude every notice above 120 m or apply a simple launch-elevation assumption to the whole area. GNSS interference, hazards affecting the operation and relevant permissions may matter beyond a simple low-altitude restriction cylinder. Preserve excluded items with the reason/source and keep filtering testable. Clearly foreign advisories may be excluded only through defensible location/scope rules, not loose keyword matches.
+
+Group the user-facing results: applicable/possibly applicable restrictions requiring attention; other relevant hazards/advisories; starts/changes during the session; unresolved-location/schedule items; reviewed unchanged notices; screened-out context. Distinguish a legal restriction/permission issue from a hazard advisory. Never use 'No NOTAMs' when retrieval failed or completeness is unknown. Prefer 'No potentially relevant notices found in the retrieved collection for [area/time], subject to the stated coverage limitations.'
+
+9.5. Failure handling and independent official review
+
+Preserve request states: never requested, pending, succeeded with new data, succeeded unchanged, failed, stale/incomplete and independently reviewed. Show when Refresh/check was pressed, processing outcome, source timestamps, coverage and reason for failure. Use one coherent notice before its relevant acknowledgement; avoid duplicated stale warnings.
+
+Extend independent official-briefing evidence to missing/stale supplementary AIP/UAS reference layers as well as NOTAM failure. Record official source/reference, review timestamp, covered area/height/time window and permissions/actions. Allow a concise note plus an explicit pilot declaration rather than forcing multiple identical confirmations. Distinguish 'supplementary display unavailable, independently reviewed' from 'restriction unresolved'. A generic acknowledgement alone must never clear unresolved permission or restriction issues, missing required briefing evidence, or scope outside the review.
+
+Keep the automated feed labelled failed/stale/incomplete even after the independent-review route is complete. A documented manual assessment can support the appropriate planning outcome; it must not turn that feed's status into 'current'. The pilot remains responsible for the briefing and permissions; do not represent the declaration as an independently verified clearance.
+
+Do not hard-block a documented independent briefing solely because a supplementary map layer is unavailable, but continue to block an assessed start where relevant restrictions/permissions or actual operating limits remain unresolved. Preserve original data, source status and manual-review basis in the pre-flight snapshot, event log, export and post-flight record.
+
+10. WEATHER, LIMITS AND ON-SITE OBSERVATIONS
+
+Present a compact table of forecast values versus manufacturer/operator limits, identifying variable, units, interval, forecast value, limit, excess and source. Distinguish 10 m wind, gusts and 80 m wind; do not imply arbitrary flight-height wind is directly known.
+
+Retain purple WARNING for acknowledged forecast exceedances in otherwise supported planning. Clarify that this means planning reviewed with unresolved forecast concern, not permission to exceed an operating limit. Actual adverse conditions, unresolved pilot assessment or a manufacturer fault must prevent an assessed take-off.
+
+Add one concise on-site conditions review before launch. Optional observations can include measured wind/gust, approximate temperature/visibility, source and timestamp; do not force invented measurements or require specialist equipment without an operator procedure. Include rain, turbulence/terrain/buildings and ability to maintain VLOS. Record whether conditions are within limits, unacceptable or uncertain. Unacceptable/uncertain observations must not become GO by ticking awareness.
+
+Support a traceable on-site reassessment when forecast concern exists; retain the original forecast warning even if the pilot records acceptable local observations. Do not fabricate a regulatory approval rule or accept arbitrary new limits.
+
+Use green for completed inputs, orange for missing/stale evidence, purple for reviewed concerns, red for blockers and neutral for optional/unassessed items. Add text/icons so meaning does not depend on colour. A completed weather review can still carry a purple risk marker.
+
+10A. SIMPLIFY WEATHER: REMOVE PAID SUBSCRIPTION OPTIONS
+
+Remove the entire 'Paid subscriptions and weather-service links' interface. Remove the Open-Meteo paid API-key field, apply/clear-key buttons, subscription explanations, premium-provider connection controls, saved service-name/URL inputs, weather-service bookmark list and its add/remove controls. Remove promotional/provider shortcuts such as Open Windy/Open Ventusky from this panel. Do not replace these with another subscription selector, account connection, key field or expandable premium-settings panel.
+
+Remove the associated session-key handling, customer-api.open-meteo.com routing, paid-provider selection, event listeners, unused DOM references, obsolete settings and paid-service status messages. Do not merely hide these controls while retaining working paid-weather integration. Update help, privacy information, exports, documentation and tests so none instruct the user to enter a weather API key or link a subscription.
+
+Retain the default public weather forecast, regional forecast map, legends, hourly data, source attribution and applicable free-access radar functionality. Retain links necessary for official weather warnings, safety cross-checks, attribution and provider terms. The RainViewer eligibility explanation is a service-use condition, not a paid-subscription setting; retain a concise accurate version where needed. The app must not require a paid account, subscription, user API key or saved weather-service bookmark to use these supported default features.
+
+Removing subscription controls does not waive supplier terms, quotas or permitted-use restrictions. Verify the default services are suitable for the deployment and intended use. Do not claim unrestricted free commercial use, bypass limits or silently use a paid endpoint. If permitted usage cannot be met with the default configuration, report that issue to the app owner and identify a compliant alternative; do not reintroduce subscription choices for individual users without explicit approval. When data is unavailable, retain clear failure/staleness handling and independent-review guidance instead of an upgrade/paywall prompt.
+
+Migration must remain backward compatible. Older flight records/backups must still import even if they contain retired service-link settings; these settings must not reactivate removed controls, change forecast endpoints or initiate requests. Preserve non-secret legacy bookmark metadata in a clearly retired backup-compatible representation if necessary to avoid silent data loss, but do not keep an active bookmark-management interface. Never recover, display, persist or export old API credentials; if unexpected credential fields are found in an import, discard/redact those fields with a clear notice while preserving valid flight/battery records. Document retired settings in the release/migration notes.
+
+11. BATTERY MANAGEMENT AND ENDURANCE
+
+Separate pack inventory, maintenance history, per-sortie inspection and current controller readings. Support individual pack IDs in a matched set, with migration from existing free-text set records without inventing constituent serial numbers.
+
+Where pack count matters, validate a complete compatible fitted configuration. Do not treat an arbitrary larger inventory count as additional flight endurance. Record the lowest available charge for paired packs and retain per-pack values if supplied.
+
+Manufacturer nominal cell voltage and derived charging ceiling remain read-only reference text. Do not prefill measured lowest/highest cells or take-off charge with nominal values. Distinguish model-specific criteria, general manufacturer maintenance guidance and operator-proposed criteria. Include their measurement conditions. Do not force a maintenance protocol to masquerade as a universal pre-flight test.
+
+Determine from current manuals/app capabilities whether requested cell telemetry is available. If unavailable, support only a properly documented, applicable manufacturer/operator inspection method; do not offer 'not available' as a bypass for a known fault or required unresolved check. Explain unsupported configurations honestly.
+
+Retain excessive-spread blocking, battery replacement flow, recorded failed readings, quarantine and replacement provenance. Treat operator/manufacturer repair-and-return-to-service decisions as explicit events; do not erase fault history or permanently blacklist a pack without a documented resolution path.
+
+Rename the displayed duration to 'Estimated battery-based planning allowance (take-off to landing)' or an equally clear label. This explicitly supersedes the earlier 'maximum possible' wording. Calculate automatically from starting charge, conservative supported time to chosen landing reserve and extra contingency. Keep one physical reserve plus the separately explained time contingency; do not double-count either.
+
+Show a simple calculation summary and assumptions. The manufacturer maximum is a sourced ideal-condition reference, not an accepted supported endurance value. Store validated profile assumptions for reuse. Do not imply that charge percentage is linear energy under all conditions or automatically invent wind/temperature derating. Keep optional actual-flight feedback for improving the user's conservative profile.
+
+Include controller readiness/charge in equipment checks. Maintenance due dates/cycle counts are optional unless applicable procedures require them. A take-off is not automatically one full battery charge cycle.
+
+12. IN-FLIGHT PHASE: TIMER AND EVENT LOG, NOT TELEMETRY
+
+Implement an optional low-distraction in-flight panel. Label it 'Manual flight timer and event log — no live aircraft telemetry'. It must not claim to know location, charge, aircraft state, VLOS or link quality unless a separately verified integration actually supplies them. Do not add telemetry integration, drone control, background geolocation or account access in this implementation.
+
+The normal assessed-start workflow must require an explicit user action and a complete supported briefing/on-site review. Save the pre-flight snapshot first; preserve GO/WARNING and its rationale at launch. For WARNING require its applicable review; acknowledgement alone cannot approve known unacceptable actual conditions. Explain launch recording as pilot-entered, not detected take-off. If app storage fails, offer a recoverable export path and clearly report that the event was not durably saved. Also provide a distinct 'Record an already-airborne / previously unrecorded flight' recovery route: factual event logging must remain possible even when no valid pre-flight assessment exists. Mark such a flight UNASSESSED or launched with unresolved items, retain the known NO-GO/out-of-scope evidence, and never fabricate a prior approval. This is factual recording, not an assessed-start bypass.
+
+Display elapsed time, estimated remaining allowance, recorded landing reserve, pilot/operator/aircraft/pack identifiers, outstanding concerns and emergency-plan summary. Offer large, clearly labelled 'Record take-off', 'Record landing', 'Log event' and 'End/abort flight' actions appropriate to the current phase. Aborting records an intention/event, not proof of landing; require a landing time or explicitly unknown outcome.
+
+Base elapsed time on persisted event timestamps, not counting interval callbacks. Record UTC instants, display Europe/London, handle date rollover/DST and detect implausible clock changes. Recover correctly after screen lock, background throttling, reload or app restart. Never silently invent take-off/landing times. If time is uncertain, label it and allow a documented correction. Do not pause airborne time because the UI was paused or backgrounded.
+
+Persist events immediately with timestamps and actor/source. Offer optional quick events such as conditions changed, other aircraft observed, battery alert, loss of VLOS, lost link, return initiated, emergency or note. Event recording must not prescribe automatic RTH/landing instructions that ignore the operator's emergency plan. Never remotely command the aircraft.
+
+Airborne operation must not force the pilot into a heads-down checklist. Encourage observer/ground-crew use or recording after landing. No routine mandatory screen interaction during flight. Optional alerts must be labelled best-effort: browser timers/audio/notifications can be suppressed and cannot replace aircraft warnings or pilot monitoring. Do not request notification permission automatically.
+
+If the aircraft is already airborne when the app becomes stale/offline or a concern is recorded, preserve the phase and events. Display 'Airborne — reassess conditions / follow emergency plan' as appropriate, not a retrospective failed take-off form. No new GO may be issued from stale data. Continue the local timer/log offline when already started, while clearly marking live services unavailable. Offline drafts/logging remain possible; do not introduce an unreviewed offline launch-clearance pathway.
+
+13. POST-FLIGHT DEBRIEF AND BATTERY HISTORY
+
+After landing, offer a short debrief. Distinguish fields necessary to close a record from optional analytical details:
+- Outcome: completed, partially completed, aborted, cancelled or postponed, with phase-appropriate semantics.
+- Actual take-off/landing times and calculated duration, or explicitly missing/estimated values with explanation.
+- Landing charge, preferably per fitted pack when available; optional pack temperatures/readings if supported.
+- Defects, warnings, damage or incidents; an explicit 'Nothing to report' alternative.
+- Follow-up actions, maintenance/quarantine status, lessons and optional mission deliverables/reference.
+
+Record planned versus actual values without replacing the original briefing. Flight completion does not certify compliance. An incomplete debrief must remain savable; a critical defect can quarantine a battery/aircraft for subsequent sorties even if optional fields are empty.
+
+Link each sortie to its actual asset and packs. Append usage/maintenance events rather than rewriting old history. Do not infer full charge cycles from flight counts. Returning a quarantined item to service requires a recorded decision/reference consistent with the applicable procedure.
+
+Cancelled/postponed missions must not receive fabricated flight time or battery usage. Multiple take-offs require distinct sortie records. Keep pre-flight briefings, events and debrief revisions connected by stable IDs.
+
+Provide project/site/day summaries and optional flight-time/battery-use summaries. Clearly distinguish planned maximum/allowance, recorded actual elapsed time, known data, estimates and missing values.
+
+14. DRAFTS, SNAPSHOTS AND AUDITABILITY
+
+Autosave unfinished drafts locally, separate from immutable saved briefing snapshots. Label the last successful save, dirty state and recovery option. A recovered draft must not restore expired declarations as current readiness. Re-evaluate relevant dependencies and freshness. Never lose an active-flight event log during draft recovery.
+
+Avoid creating a new duplicate evidence snapshot for every keystroke. Keep intentional briefing revisions, event records and debrief revisions. Corrections must record what changed, when and why; preserve prior values. Local append-only application behaviour is not cryptographic tamper-proofing or a certified logbook. Exports must state that distinction.
+
+Store app/build version, schema version, rules/catalogue review revisions, profile version, source timestamps and readiness/warning rationale with each relevant snapshot. Avoid storing unnecessary personal data or device identifiers.
+
+15. STORAGE, MIGRATION AND LARGE BACKUPS
+
+Eliminate the silent 300-entry truncation in inventory/history loading. Preserve existing records exactly. If capacity must be limited, warn before a write and provide an export/archive path without silently dropping entries. Handle browser storage quota/write failures visibly.
+
+Choose a storage approach that reliably supports growing histories and atomic writes; IndexedDB is an option, not an excuse for a major unrelated rewrite. If migrating from localStorage, make migration versioned, transactional, resumable and idempotent. Verify integrity before retiring the old representation, and provide rollback/recovery. Do not auto-delete legacy data merely because migration started.
+
+Support all-data export/import beyond the previous 10 MB trap: use a documented larger limit or safely split archives with a manifest and complete matching restore support. Reject malformed/oversized imports without partial loss. Repeated imports must not duplicate IDs. Do not execute imported content, trust imported readiness, permit prototype pollution or render imported text as HTML. Validate nested data and new phase/event fields.
+
+Backups must include drafts/active-flight recovery data when explicitly labelled, immutable flight records, assets/profiles, batteries/sets/history, settings and provenance. Clearly distinguish saved records from drafts in backup and restore. Do not include API credentials. Restore into a fresh browser must work and must preserve historical GO/WARNING/NO-GO without treating them as current authorisation.
+
+Retain backup-first Clear all app data under a collapsed menu. Require a current successful backup attempt, user confirmation of the completed file on disk, and final destructive confirmation. Include all new stores. Never delete or overwrite real user data in automated/browser testing.
+
+16. PRIVACY AND SECURITY
+
+Keep personal records browser-local by default. Do not introduce accounts, cloud synchronisation, telemetry, analytics, crash-report uploads or central record storage without explicit authorisation. Import means local file processing; make this clear.
+
+Add concise privacy/storage information describing what stays local, location/postcode/map requests sent to providers, hosting connection metadata, retention/deletion, unencrypted backups and shared-device exposure. Do not promise zero privacy responsibilities, absolute privacy, encrypted-at-rest storage or that users cannot lose records. Obtain current official privacy guidance for statements about legal obligations; unresolved operator identity/contact details must be identified for the owner to complete rather than invented.
+
+Maintain data minimisation. Use safe DOM text handling, appropriate HTTPS/security headers and tightly scoped external requests. Do not request or handle user weather API keys or subscription credentials. Ensure retired credential fields cannot be restored into active settings and that secrets remain excluded from logs, snapshots, drafts and exports. Do not change hosting access controls or DNS as part of this task.
+
+17. PRESENTATION AND ACCESSIBILITY
+
+Retain the established branding and persistent navigation, now organised around phases. The current phase, save state, active warnings and next relevant action must be visible. Use one mission-management panel; retain compact readiness summaries at useful locations without duplicating whole editors/help blocks.
+
+Keep the battery section linear. Reduce repeated banners and wording. Provide expandable source/manual explanations and short inline instructions. Touch controls must be usable outdoors; support keyboard/screen readers, clear labels, adequate contrast and non-colour status cues. Preserve focus/caret and stable layout during updates. Respect reduced-motion preferences.
+
+Display London local time clearly while storing unambiguous UTC timestamps and offsets. Distinguish take-off time, forecast sample time, briefing time, recorded flight time and export time. A browser timestamp is not an independently authenticated time source.
+
+17A. APPLICATION LICENCE, COPYRIGHT, PROJECT ORIGIN AND BRANDING
+
+The owner has selected GNU Affero General Public License version 3.0 for the application code. Use the unambiguous SPDX identifier AGPL-3.0-only, not AGPL-3.0-or-later, unless the owner subsequently requests later-version permission. Implement the licensing files, source notices, release packaging and deployed source-access mechanism as part of this update. This replaces any earlier proposal to use Apache or MIT for first-party application code; third-party components retain their own licences.
+
+A. Ownership and provenance
+
+Inspect existing repository history, copyright statements, contributor permissions and dependency notices before applying the licence. Confirm the legal copyright holder and authority to license the covered work. The project originates with Yves Plancherel / ENDIAN-LAB; this is a project-origin attribution and is not evidence that either personally owns all copyright. Do not invent a legal entity, assign copyright to Imperial automatically, claim university endorsement or erase existing contributors' notices. Imperial employment-related IP requirements and other contributors' rights must be checked where applicable. Use a clearly marked unresolved holder/contact field in reviewable drafts if necessary; do not publish a final legal ownership claim until resolved. Continue all independent implementation work while identifying this specific release dependency.
+
+Add a root LICENSE containing the complete, unchanged official GNU AGPL version 3 text obtained from https://www.gnu.org/licenses/agpl-3.0.txt. Add an explicit statement in README and source headers that covered first-party code is licensed under AGPL-3.0-only, with accurate copyright years and confirmed holder names. Do not replace third-party headers, imply sole ownership of AI-generated material or make unsupported claims that every bundled asset is copyrightable or owned by the project. An SPDX declaration applies only to files actually covered by that licence.
+
+Create COPYRIGHT.md (or an equivalent clearly named notice) distinguishing copyright ownership, contributors and project origin. Record: 'Flightdesk UK originated as a project initiated by Yves Plancherel / ENDIAN-LAB.' Verify that wording against the owner's confirmed preferred attribution before final release. Include the original repository URL only after verifying its exact owner/address; do not guess it. Preserve original provenance and applicable author notices in source and release archives. Mark files modified in this release and retain existing notices. Explain that downstream modifiers must follow AGPL notice and source requirements; do not add a mandatory advertising credit, permanent UI banner, contribution-back requirement or a requirement to submit changes to the original project beyond the actual licence obligations.
+
+B. Corresponding source and deployed access
+
+Add a compact, keyboard-accessible 'Source code & licence' link in About/help or the footer, available in the PWA as well as the browser. For a modified network deployment, prominently offer its users access to the Corresponding Source of the exact running version, consistent with AGPL section 13. Linking only to a moving main branch or the original upstream repository is insufficient when it does not provide that version's complete source.
+
+Use a verified release/commit permalink and downloadable source archive that includes the covered frontend/server source, necessary build/install scripts, configuration templates and dependency/version information needed to build and run that release. Follow the actual AGPL definition of Corresponding Source and applicable exceptions. Do not expose production secrets, personal records or credentials. Record the source revision/release in app build metadata and keep the deployed source offer valid for that version; local self-hosting instructions must explain how to update the source link for a modified build. For offline use show cached licence/origin details and clearly label source download as requiring connectivity. Do not force a source download during flight.
+
+Provide a short accurate licence explanation: anyone may use the application for any purpose, including commercial operations; AGPL permits competing versions and charging money; distribution and modified network operation carry source-sharing/notice obligations; ordinary private modifications do not require publication merely because they exist. Do not describe AGPL as preventing all appropriation or commercial competition, or as requiring every unrelated service/component to be relicensed. Standard warranty/liability provisions remain unchanged; they are not a guarantee of immunity or CAA certification.
+
+C. Separate name and logo policy
+
+Add NAME-AND-LOGO-POLICY.md, linked beside the licence information. Clearly separate code permissions from branding permissions. Subject to confirmed ownership and applicable law, reserve use of the Flightdesk UK name, project logos and ENDIAN-LAB branding as identifiers of official releases. Do not claim a registered trademark or use the registered symbol without evidence. Identify the actual brand owner/contact only after confirmation.
+
+Allow truthful descriptive references, attribution, links to the original project and statements of compatibility that do not imply endorsement. Permit unchanged official copies to retain their existing branding and notices when accurately identified. Require independent modified distributions/hosted versions to use their own prominent product identity and clearly state that they are independently maintained, unless the brand owner permits official branding. They may describe their origin factually, for example 'Based on Flightdesk UK', and must preserve applicable legal notices. Do not prohibit legally permitted nominative/descriptive use or misrepresent the branding policy as an extra restriction on AGPL code rights.
+
+Distinguish logo/artwork copyright permissions from name/trademark policy explicitly: inventory the relevant assets, preserve their actual licences and specify any separate limited permission for unchanged official copies. Do not blanket-restrict third-party logos or retroactively revoke permissions already granted. Do not alter the AGPL text or add a noncommercial/no-fork restriction. Keep branding rules out of flight readiness gates and do not add a compulsory legal checkbox to every mission.
+
+D. Third-party and release integrity
+
+Update THIRD-PARTY-NOTICES.md with actual component names, versions, licences and required notices; verify licence compatibility with the chosen application licence. Keep external maps, NOTAM collections, manufacturer materials and weather/radar data under their applicable attribution, access and reuse terms. Do not claim AGPL relicenses those materials. Resolve incompatible dependencies before release, without silently removing required functionality.
+
+Document any previously granted licences: a new AGPL release does not withdraw rights recipients already received in earlier permissively licensed versions. Apply the selected licence only where the project has authority to do so. Explain licensing scope and any unresolved ownership/branding information in the completion report. These instructions authorise preparation of the licensing changes, not fabricated ownership claims or registration of a trademark.
+
+18. TESTS AND ACCEPTANCE SCENARIOS
+
+Add meaningful behavioural/unit/integration tests and browser checks. Preserve working regression coverage; update obsolete assertions deliberately rather than deleting tests to obtain a pass. Tests must not depend on a fixed date, arbitrary text ordering or an exact asset count when the intended behaviour can be tested directly. Mock upstream failures and reference time where appropriate. A test pass is not compliance certification.
+
+At minimum verify:
+1. Existing backups migrate without loss; legacy VLOS 'no/unsure' stays unresolved.
+2. More than 300 history/inventory entries survive reload, export and restore.
+3. A large supported backup round-trips into an empty browser; repeated import is idempotent; failure is atomic.
+4. Active/removed batteries, replacement history, asset/profile links and new flight events all round-trip.
+5. Changing take-off mass, payload, class or a covered limit invalidates only affected declarations; unrelated notes/navigation do not.
+6. Numeric typing retains decimals, intermediate states, focus and caret without lag/reset.
+7. A2 competence appears only when relevant; supported category/class restrictions remain enforced.
+8. Missing or failed supplementary map layers permit only the documented independent-review route; unresolved permissions still block.
+9. Session-based NOTAM screening is independent of battery calculation; notices are selected by validity/activity overlap rather than publication time. An expanded session or sortie beyond the reviewed window requires renewed coverage.
+10. Warning text quantifies exceedances; unknown limits/data do not become GO; unacceptable actual weather cannot be cleared by acknowledgement.
+11. Battery faults/spread exceedances block launch; replacing a battery preserves the failed reading/history and requires fresh applicable checks.
+12. Maintenance measurement conditions are not silently represented as current-flight observations; unavailable telemetry is never invented.
+13. No duplicate final checkbox is needed for evidence already supplied; the final integrated VLOS/operational review remains explicit.
+14. BVLOS/unsupported operations cannot obtain assessed GO/WARNING or launch via the supported workflow; FPV observer requirements are conditional and traceable.
+15. New mission/next sortie copies setup but clears flight-specific observations and retains historical evidence.
+16. Take-off persists the briefing and timestamp once; double taps do not create duplicate flights.
+17. Screen lock/background/reload/offline recovery reconstructs an active timer without inventing data, stopping airborne time or resetting the active flight.
+18. A past scheduled start does not relabel an airborne or landed flight as a failed pre-flight assessment. An already-airborne flight can be factually logged as unassessed without manufacturing a pre-flight GO.
+19. Aborting is not confused with landing; uncertain/missing actual times can be corrected with an audit trail.
+20. Cancelled/postponed missions do not accumulate flight duration or battery cycles.
+21. A debrief defect carries forward to the affected aircraft/battery until resolved; 'nothing to report' and a defect note cannot conflict.
+22. Updates do not force reload during an active flight or destroy drafts/events. Older installed versions and pending updates are clearly identified where known.
+23. Privacy checks confirm no crew IDs, notes, records or imported backup contents are posted to external services; site/weather requests remain disclosed.
+24. Exported reports show pre-flight evidence, actual events/outcomes, missing data, provenance and revisions, with escaped user text and no implied certification.
+25. Cloudflare deployment works with all required routes; PWA caching includes the app shell but not misleadingly cached live-data responses.
+26. No paid-weather, API-key, subscription or service-bookmark controls remain in the rendered interface or active code paths; no normal forecast/map request uses a customer/paid endpoint or a user API key.
+27. Public forecast/map, legends and eligible radar use still work; official safety/source/terms links remain. Old backups with retired weather-link settings import without losing flight/battery data or reactivating removed features, and unexpected credentials are redacted.
+28. Weather-service failure or usage-limit errors produce honest unavailable/stale states, never a subscription upsell, fabricated data or a false GO.
+29. Session defaults, editable end and 30-minute planning buffers are clearly labelled; midnight/BST/GMT and old historical +/-2-hour records are handled without rewriting prior evidence.
+30. Old-issued but currently active NOTAMs, future activity inside the session, partial temporal overlap and repeated schedules are included; unsupported schedules remain for manual review.
+31. A repeat download of the same hourly collection records a successful unchanged check without falsifying source age; a recent download of an old collection remains stale/incomplete.
+32. Before-flight comparisons identify additions, replacements, cancellations and newly relevant activity. A notice disappearing from incomplete data is not assumed cancelled; unchanged notices do not force redundant review.
+33. Differentiate failed request, stale/incomplete or unknown coverage, official contingency source and independent archive. Manual review preserves those statuses while recording its separate source and scope.
+34. Unresolved restrictions/permissions still block assessed start; documented independent briefing can resolve supplementary-layer/feed availability issues without claiming automated clearance.
+35. Switching site/session while requests are pending cannot apply the previous response to the new plan. Offline/background periods do not claim continuous updates or a current check.
+36. Saved briefing exports include source generation/download/review times, reviewed session/flight interval, notice versions/change review and manual evidence; later changes do not rewrite the take-off snapshot.
+
+37. The unchanged official AGPL text, AGPL-3.0-only declaration, accurate copyright/project-origin notices, third-party notices and separate name/logo policy are present in source and release packages; no unresolved ownership claim is presented as final.
+38. The deployed Source code & licence link identifies and supplies the exact running version's Corresponding Source, including build/install materials, without credentials or user data; a modified build cannot silently point only to unmodified upstream source.
+39. About/help and offline PWA licence information are accessible; branding rules preserve truthful attribution and distinguish official releases from independent modifications without adding noncommercial restrictions to AGPL code.
+
+40. Application version metadata is consistent across frontend/server/packages; the running version remains accurate offline and differs clearly from an available update. Historical versions survive edits and backup round-trips; unknown legacy versions remain unknown. Release identity/source correspondence and schema compatibility checks pass.
+
+19. BUILD, DEPLOYMENT AND DOCUMENTATION
+
+Preserve independent Node/Worker operation and GitHub-to-Cloudflare deployment. Maintain a deterministic release identifier and service-worker update flow. Avoid forced update/reload during active operation. Handle incompatible schema upgrades conservatively, retaining active-flight data and clearly requiring resolution rather than silently downgrading records.
+
+Use the existing build/test entry points where possible:
+python3 scripts/manage.py build
+python3 scripts/manage.py test
+
+Keep Cloudflare's build command compatible with:
+python3 scripts/manage.py build && python3 scripts/manage.py test
+
+The current deploy command is npx wrangler@4 deploy. Inspect the current repository configuration instead of assuming an old package layout. If deployment configuration changes, document why and provide exact settings. Do not require the owner to rebuild manually for ordinary GitHub changes when the Cloudflare build already does it. Do not deploy an old private Site instead of the authorised GitHub/Cloudflare target.
+
+Deliver a complete GitHub-ready ZIP, source changes, migration notes, updated start/build/deploy instructions, release notes, and test results. Include the built server when needed for independent use, required assets/licences and checksums. Exclude user data, secrets, Git credentials and unrelated Site identity. State the exact base/new versions and whether production publication actually occurred.
+
+19A. APP VERSION NUMBER AND RELEASE HISTORY
+
+Maintain an explicit application version number independently of this instruction document's version. Use semantic versioning MAJOR.MINOR.PATCH: PATCH for backward-compatible fixes, MINOR for backward-compatible functionality and MAJOR for breaking supported interfaces/data compatibility. Describe the project's compatibility policy, including any pre-1.0 conventions, in release documentation. Preserve an existing valid version sequence. If none exists, start the first release implementing this specification at 1.0.0, without implying a certification or production-readiness guarantee.
+
+Keep one authoritative version value in the existing package manifest if present, otherwise a root VERSION file. Generate frontend, server and build metadata from it; do not maintain separate hand-edited copies. Add a small release command/script that validates and increments the chosen version once, updates CHANGELOG.md and prepares consistent release artifacts. Ordinary rebuilds and Cloudflare deployments must not automatically increment the semantic version. Require each changed public release to have a new version; a repeat deployment of identical release artifacts may retain it. Use prerelease identifiers for previews where appropriate and keep them distinguishable from official releases.
+
+Track application version, source commit/revision, build identifier and build date in UTC. Distinguish app version from backup/data-schema version, catalogue/rules revisions and this prompt's version. Use the actual Git revision when available, and a documented honest fallback for ZIP builds without Git; do not invent a commit or display a dynamic current date as the build date. Keep generated metadata stable for a given release and derive source links from the same release identity. Include metadata in a version.json file or equivalent endpoint and package manifest, with an appropriate cache policy for update discovery. The displayed running version comes from the loaded app bundle, not merely the latest server response.
+
+Show 'Flightdesk UK vX.Y.Z' unobtrusively in the footer or navigation, and full build/source details in About/help with a copy-version-details action. Make the running version visible offline in the installed PWA. Show available update version separately when reliably known; never label an older loaded/offline client as the latest version just because the server has been updated. If client/server versions differ, handle compatibility explicitly and explain any blocked operation. Preserve the existing safe update flow: no forced reload or schema migration during an active flight, and no loss of unsaved drafts or events.
+
+Record the creating app/build version on each new briefing, flight event/debrief revision and exported report where relevant. Preserve original historical version metadata; a later edit/import must not rewrite it to the current version. Record editor/importer/exporter app versions separately when needed. Old records without versions must be labelled 'not recorded', not assigned a fabricated historical version. Every all-data backup includes exporter app version and schema version; restore checks schema/feature compatibility rather than rejecting a backup merely because its app version differs.
+
+Maintain CHANGELOG.md with release version, date, concise user-facing changes, fixes, migration/compatibility notes and important known limitations. Link release notes in About/help. Include the app version in distributable ZIP names, release metadata and verified source references; preserve any existing filename compatibility where required. Prepare matching Git tags such as v1.0.0 and release instructions, but do not claim a tag/release was published unless it actually was. The corresponding-source offer required in section 17A must match the exact running release, including distinct modified builds sharing an upstream version.
+
+Add release checks that fail on malformed/missing version metadata, disagreement between generated artifacts, unexpected reuse of an existing release identity for different artifacts, or a source link that resolves to the wrong release. Use checksums/commit identifiers alongside versions to establish artifact identity. Tests must cover offline version display, pending updates without forced reload, preservation of historical versions through edit/export/import, legacy records with missing version metadata, and independently versioned schema migrations. Do not introduce telemetry or external version-tracking services.
+
+20. IMPLEMENTATION SEQUENCE AND COMPLETION REPORT
+
+Implement in verifiable stages without stopping at the first partially complete stage:
+A. Data preservation, schema/migration, provenance and confirmation dependency fixes.
+B. Consolidated pre-flight flow, VLOS scope, operating profiles, session-based NATS/NOTAM briefing and change checks, manual fallbacks and removal of paid-weather/subscription-link features.
+C. Persistent sortie lifecycle, low-distraction manual timer/events and recovery.
+D. Post-flight debrief, pack/asset histories, reports and full backups.
+E. PWA, privacy/accessibility checks, AGPL licensing/source offer and provenance/branding documentation, regression tests, packaging and authorised deployment.
+
+At each stage keep old records usable and avoid broad unrelated rewrites. Resolve ordinary implementation choices using this specification. Ask only for genuinely blocking information or consequential authorisation not already provided. Do not weaken a safety gate merely to make a demonstration turn green.
+
+In the final report explain what changed, what data migrated, how to use the three phases, which tests passed, remaining limitations and exactly what the owner must upload/configure if repository/deployment access was unavailable. Do not claim live telemetry, certified flight logging, BVLOS approval or full CAA compliance.
+
+END IMPLEMENTATION PROMPT
+
+REFERENCE NOTES FOR THE IMPLEMENTER
+
+These were consulted on 18 November 2026. Verify again when implementing; rules and pages may change. UI design recommendations, including removing a dropdown and using one integrated declaration, are product-design choices rather than CAA-mandated form layouts.
+
+CAA: Beyond Visual Line of Sight (BVLOS)
+https://www.caa.co.uk/drones/open-category/moving-on-to-more-advanced-flying/beyond-visual-line-of-sight-bvlos/
+
+CAA: Specific Category overview
+https://www.caa.co.uk/drones/specific-category/specific-category-overview
+
+CAA: First Person View (FPV)
+https://www.caa.co.uk/drones/open-category/moving-on-to-more-advanced-flying/first-person-view-fpv/
+
+CAA Regulatory Library: GM1 UAS.OPEN.060(4), responsibilities of the remote pilot / observer and FPV
+https://regulatorylibrary.caa.co.uk/2019-947/Content/AMC-GM/GM1%20UAS%20OPEN%20060%204%20Responsibilities.htm
+
+CAA: Class marks
+https://www.caa.co.uk/drones/open-category/getting-started-with-drones-and-model-aircraft/class-marks/
+
+CAA: Making every flight safe
+https://www.caa.co.uk/drones/open-category/drone-code/making-every-flight-safe-points-10-to-20
+
+ICO: Guidance on storage and access technologies
+https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/
+
+Cloudflare Workers Builds configuration
+https://developers.cloudflare.com/workers/ci-cd/builds/configuration/
+
+
+NATS: Aeronautical Information Service (live briefing service and product distinctions)
+https://www.nats.aero/do-it-online/ais/
+
+NATS: Contingency PIBs (hourly publication and collection limitations)
+https://nats-uk.ead-it.com/cms-nats/opencms/en/Briefing/contingency-pibs/
+
+NATS: Point PIB user guidance (selected validity interval and UTC)
+https://nats-uk.ead-it.com/fwf-nats/public/help/Content/IBS2/topics/UMAN/Generating%20Point%20PIB.htm
+
+CAA: Airspace restrictions (latest information and before-every-flight checks)
+https://www.caa.co.uk/drones/open-category/moving-on-to-more-advanced-flying/airspace/airspace-restrictions/
+
+GNU: GNU Affero General Public License version 3 (official text and section 13)
+https://www.gnu.org/licenses/agpl-3.0.html
+https://www.gnu.org/licenses/agpl-3.0.txt
+
+GNU: Applying GNU licences to software
+https://www.gnu.org/licenses/gpl-howto.html
+
+Imperial: Intellectual property guidance, including open-source software releases
+https://www.imperial.ac.uk/enterprise/staff/working-with-industry/intellectual-property-guidance/

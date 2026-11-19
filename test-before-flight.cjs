@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const src=fs.readFileSync('dist/airspace-ui.js','utf8'),fn=src.slice(src.indexOf('window.flightAirspaceBeforeFlight='),src.indexOf('window.flightAirspaceSnapshot='));
+const ctx={window:{flightAirspaceReview:()=>({go:true,automatedNotamUsable:false})},beforeFlightCheck:null,manualSignature:()=> 'same-area-session',manualReview:()=>({valid:true,confirmedAt:'2026-11-18T10:00:00Z'})};vm.createContext(ctx);vm.runInContext(fn,ctx);
+assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,false);
+ctx.beforeFlightCheck={state:'pending',scope:'same-area-session',requestedAt:'2026-11-18T10:05:00Z'};assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,false,'An old manual review cannot make a pending request processed');
+ctx.beforeFlightCheck.state='FAILED — independent official briefing needed';assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,false);
+ctx.beforeFlightCheck.state='response processed — review current coverage and changes';assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,false,'Stale collection needs a renewed official review after this request');
+ctx.window.flightAirspaceReview=()=>({go:true,automatedNotamUsable:true});assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,true);
+ctx.window.flightAirspaceReview=()=>({go:true,automatedNotamUsable:false});ctx.manualReview=()=>({valid:true,confirmedAt:'2026-11-18T10:06:00Z'});assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,true);
+ctx.beforeFlightCheck.state='independent official review recorded';assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,true);ctx.beforeFlightCheck.scope='different-session';assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,false);ctx.beforeFlightCheck.scope='same-area-session';ctx.window.flightAirspaceReview=()=>({go:false,automatedNotamUsable:true});assert.equal(ctx.window.flightAirspaceBeforeFlight().valid,false);
+console.log('Before-flight check: pending/failed requests cannot be cleared by old acknowledgement; current processed or newly independent review and matching scope required.');

@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),A=require('./dist/airspace-core.js');
+const start=A.londonDateTime('2026-11-18T23:30');
+assert.equal(new Date(start).toISOString(),'2026-11-18T23:30:00.000Z');
+let w=A.sessionWindow(start);assert.equal(w.end,start+7200000);assert(w.assumedEnd);assert.equal(w.windowStart,start-1800000);assert.equal(w.windowEnd,start+9000000);
+w=A.sessionWindow(start,A.londonDateTime('2026-11-19T02:30'));assert(!w.assumedEnd);assert.equal(w.end-start,10800000);
+assert(A.sessionWindow(start,start-1).invalid);assert.equal(A.londonDateTime('2026-10-25T01:30'),null);assert.equal(A.londonDateTime('2026-03-29T01:30'),null);
+const r={id:'A1/26',type:'N',body:'old issued but active',start:'2601010000',end:'2612010000',coordinate:'5130N00000E',radius:'1',lower:'SFC'};
+assert.equal(A.screenNotams([r],{point:{lat:51.5,lon:0},radius:500,start,end:start+3600000}).nearby.length,1);
+let changes=A.noticeChanges([r],[{...r}]);assert.equal(changes.added.length,0);assert.equal(changes.changed.length,0);
+changes=A.noticeChanges([r],[{...r,body:'amended'}]);assert.equal(changes.changed.length,1);
+changes=A.noticeChanges([r],[]);assert.equal(changes.missingUnconfirmed.length,1);assert.equal(changes.cancelled.length,0);
+const c={...r,id:'A2/26',type:'C',replaces:r.id};changes=A.noticeChanges([r],[c]);assert.equal(changes.cancelled.length,1);assert.equal(changes.replaced.length,1);
+assert.equal(A.noticeChanges([c],[c]).cancelled.length,0,'An unchanged cancellation must not repeatedly invalidate review');
+const feed={issued:new Date(start-1800000).toISOString(),validFrom:new Date(start-3600000).toISOString(),validTo:new Date(start+86400000).toISOString()};
+assert(A.collectionHealth({feed,request:{state:'succeeded'},start,end:start+7200000,now:start}).usable);
+assert(!A.collectionHealth({feed:{...feed,mirror:true},request:{state:'succeeded'},start,end:start+7200000,now:start}).usable);
+assert(!A.collectionHealth({feed:{...feed,issued:new Date(start-10800000).toISOString()},request:{state:'succeeded'},start,end:start+7200000,now:start}).usable);
+console.log('Session NOTAM tests passed: default/explicit windows, midnight/DST, old active notices, changes/cancellations, missing-notice uncertainty, archive/source age.');

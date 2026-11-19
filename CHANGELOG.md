@@ -1,0 +1,14 @@
+# Changelog
+
+## 1.0.0 — 18 November 2026
+
+First explicitly versioned release based on the independent 13 November 2026 source package. Adds flight-phase workflow, source/licence notices, deterministic version metadata and updated planning features. See IMPLEMENTATION-REPORT.md for implemented scope, tests and limitations. This version number is not a safety/compliance certification.
+
+Existing browser data is preserved; legacy records without app-version metadata remain “not recorded”. Schema versions are independent of application versions. Confirm legal ownership before a final public licence/brand claim.
+
+## Version policy
+
+MAJOR.MINOR.PATCH: breaking supported interface/data compatibility; backward-compatible features; backward-compatible fixes. Increment once for each changed public release. Identical artifact redeployment keeps its version. Preview identifiers use SemVer prerelease syntax. Ordinary builds do not increment versions.
+
+
+The all-phase functionality, session-based NOTAM review, on-site weather assessment, documented unavailable-telemetry battery review, resilient drafts/backups and flight/debrief evidence are described in RELEASE-NOTES.md. See UPLOAD-TO-GITHUB.md for the existing Cloudflare/GitHub deployment.

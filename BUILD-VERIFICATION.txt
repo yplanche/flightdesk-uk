@@ -1,7 +1,31 @@
-Latest published source: d2dce74ac52f833311e50c8451aaeced49f3f01b
-Packaged: 2026-11-13
-Build: passed; 30 embedded static assets, local Leaflet included.
-All 17 regression scripts: passed.
-Independent Node HTTP smoke: passed for app HTML, bundled Leaflet, manifest, backup module, service worker and invalid API input.
-Live upstream data availability is not guaranteed by these checks.
-No user records or hosting credentials included.
+Flightdesk UK v1.0.0 — release verification
+Prepared 18 November 2026. Baseline: independent 13 November source package,
+base commit d2dce74ac52f833311e50c8451aaeced49f3f01b. Current user GitHub HEAD not fetched.
+
+Runtime: Node.js v24.22.3; Python 3.12.14. Supported documented minimums Node22/Python3.10.
+Build: python3 scripts/manage.py build
+Tests: python3 scripts/manage.py test
+29 test files: baseline regression coverage plus session windows/change checks,
+before-flight pending/failed/manual checks, on-site actual-limit assessment,
+battery unavailable-telemetry evidence/fault latching, flight lifecycle and corrections,
+large backup/prototype/credential handling, corrupted-store protection,
+draft/deletion consistency, version/source safety and deterministic rebuilds.
+Final outcome is recorded in TEST-RESULTS.txt after final build.
+
+Browser checks (local preview only):
+- New ten-stage navigation and the existing PWA update flow rendered.
+- Aircraft preset populated eligible C2/legacy options and battery model;
+  known battery model completed green while take-off charge stayed blank/orange.
+- Uncertain on-site weather stayed unresolved and prevented assessed readiness.
+- UNASSESSED synthetic recovery flight retained state/timer after reload.
+- Abort remained distinct from landing; landing recorded actual time/duration.
+- Post-flight outcome, landing charge and Nothing to report saved a debrief revision.
+- Documented unavailable-cell-telemetry option required procedure/reason/no-fault evidence.
+- Footer/About displayed loaded version, fingerprint, licence/origin and exact source link.
+- No new application console errors in the final checked preview; browser-extension
+  metadata errors were external to this application.
+No real flight, aircraft telemetry, actual emergency, production publication or GitHub push was performed.
+No browser private/user records are bundled. Synthetic QA records remain only in preview browser storage.
+
+Tests are not CAA certification or independent legal/manufacturer validation.
+See RELEASE-NOTES.md for remaining limits and COPYRIGHT.md for ownership review.
