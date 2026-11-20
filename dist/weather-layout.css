@@ -15,3 +15,14 @@
 @media(max-width:1000px){#weathercard .weather-measures{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){#weathercard .weather-measures{grid-template-columns:1fr}#weathercard .weather-phase{padding:.85rem}#weathercard .weather-measure h4,#weathercard .weather-measure>.label{min-height:0}}
 @media print{#weathercard .weather-measures{grid-template-columns:repeat(3,minmax(0,1fr))}#weathercard .weather-measure{break-inside:avoid}}
+/* Keep required review and recent radar visible; only optional detail is collapsible. */
+#weathercard .recent-radar-panel{background:#f4f8fb}
+#weathercard .recent-radar-panel #radarmap{display:block;min-height:320px;border:1px solid #b8ccc5;border-radius:.6rem;background:#e5edf2}
+#weathercard .recent-radar-panel #radarstatus{padding:.75rem;border-left:4px solid #6a8394;background:#fff;line-height:1.5}
+#weathercard .recent-radar-panel #radarstatus[data-radar-state="failed"],#weathercard .recent-radar-panel #radarstatus[data-radar-state="offline"],#weathercard .recent-radar-panel #radarstatus[data-radar-state="stale"],#weathercard .recent-radar-panel #radarstatus[data-radar-state="incomplete"]{border-color:#9c6b16;background:#fff7e7}
+#weathercard #weatherstatus{margin:.5rem 0;padding:.7rem 0}
+#weathercard #weatherack{scroll-margin-top:7rem}
+#weathercard .weather-ack{margin:1rem 0}
+
+#weathercard #onsitepanel.risk-unsuitable{border-left:5px solid #b53c45}
+#weathercard #onsitepanel.risk-unsuitable #onsitestatus{color:#8d202b;font-weight:650}

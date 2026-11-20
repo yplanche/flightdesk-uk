@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 — 2026-11-20
+
+Separate completed reviews from suitability; traffic-light recommendation wording; source-linked final statuses without circular VLOS dependency; visible weather/radar reviews; relevant-interval forecast identity; exact inspection timestamps/history and unsaved battery feedback. Existing local records/backups retained. See RELEASE-NOTES.md.
+
 ## 1.2.0 — 2026-11-19
 
 Make blocked record actions explicit with local recovery choices and result feedback; separate matching Forecast/Observations layouts, add observed precipitation validation, move rain/probability thresholds into Weather with sourced aircraft references, reorder aircraft/battery/airspace/weather, and default automatic NOTAM screening to 3 km. Existing record schemas/history retained.
