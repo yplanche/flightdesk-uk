@@ -1,3 +1,15 @@
+# Flightdesk UK v1.4.1 — 20 November 2026
+
+Night operation planned now occupies the same grid width as Purpose. Flight status is an explicit Airborne/Not airborne label with a separate HH:MM:SS clock. A saved take-off starts the clock; saved landing stops it and retains the final duration. Landing events capture take-off, landing and elapsed seconds automatically, displayed in the event table and complete exports.
+
+Take-off validation now responds beside the controls instead of appearing as an inert, dark disabled button. Assessed take-off still requires applicable readiness, conditions and coverage; a rejected action clearly says Take-off NOT recorded and does not start a timer or create an event. Duplicate/active-flight actions and storage failures remain guarded. Disabled actions are visibly grey.
+
+Log event appends immediately to the airborne flight, or the selected recorded flight after landing; after-flight entries are explicitly labelled. Choosing an event type/typing alone does not save an event. Pre-flight checkboxes remain briefing evidence, not flight activity events.
+
+Regression checks execute the actual assessed take-off/event/landing handlers, tick the clock, verify persisted duration and frozen landing time, append a post-flight note, and reject missing-review/storage-failure paths without phantom flights. Existing records remain compatible; historical landing durations can be derived for display without rewriting old events.
+
+No remote GitHub write or production deployment.
+
 # Flightdesk UK v1.4.0 — 20 November 2026
 
 Flight now shows a live event table, explicit flight reference selector, and event entry without nested disclosures. Recording take-off, events, abort intention and landing saves immediately in browser storage and updates the table. The active flight remains visible until closed. Flight recording remains manual, with assessed-launch gates unchanged.

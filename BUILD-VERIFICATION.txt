@@ -1,6 +1,5 @@
-Flightdesk UK v1.4.0
-Build: 1.4.0-ef6e0bba1cd4ad11
-All 41 automated test programs passed.
-Browser QA: explicitly synthetic UNASSESSED take-off recovery, visible event entry, landing with automatic JSON download, linked HTML report/briefing preview, reload persistence, post-flight save, and final complete JSON with all three phases validated. Assessed launch gates unchanged.
-Worker gzip size: 377935 bytes; source archive assets deployed separately via included wrangler.toml.
-No real flight, remote GitHub write or production deployment performed.
+Flightdesk UK v1.4.1
+Build: 1.4.1-57cf81296c47d3ca
+All 42 automated test programs passed. Includes actual assessed take-off button handler + live tick/event/landing/frozen clock/duration/post-flight note tests, blocked readiness and failed-save cases.
+Browser: Night/Purpose both 469px, explicit rejected-take-off feedback, synthetic UNASSESSED recovery flight switched to Airborne, timer advanced from 00:00:19 to 00:00:30, event appended, landing switched to Not airborne and froze 00:00:39, event carried 39.429 seconds and both UTC times; a subsequent note appended without restarting timer. Landing JSON exact duration validated. No real flight.
+No production deployment or remote GitHub write.

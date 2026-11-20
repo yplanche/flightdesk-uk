@@ -1,3 +1,7 @@
+# v1.4.1 flight status/action review — 20 November 2026
+
+Actual assessed take-off button handlers are exercised in a deterministic VM using the real lifecycle transition/commit code, with valid/blocked/failing-save fixtures. Browser QA checks compact night field, visible rejection feedback, timer status and live log workflow using explicitly synthetic records; no real flight is performed. Earlier evidence below describes its named releases.
+
 # v1.4.0 flight activity and files review — 20 November 2026
 
 Flight log rendering uses saved data and keeps the active flight visible. Rows include take-off, event notes, landing and corrections, linked by stable flight identity to briefing/debrief revisions. Complete JSON and readable HTML are dated disk copies; browser autosave remains separate. Recovery is explicitly limited to unsaved Flightdesk log files. Desktop Chrome QA used an explicitly synthetic UNASSESSED recovery take-off, then an event and landing. All three rows appeared immediately; landing downloaded complete JSON. The downloaded JSON was validated for matching briefing/flight identity and all events; the HTML event table was checked. Reload plus draft recovery retained all rows. No actual flight was performed, and assessed launch gates were not bypassed. Historical interaction notes below apply to their named releases.

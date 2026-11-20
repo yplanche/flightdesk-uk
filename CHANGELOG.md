@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1 — 2026-11-20
+
+Match Night field width to Purpose; explicit Airborne/Not airborne status and second-resolution elapsed/frozen-duration clock; record landing times/duration in log; visible action feedback and disabled styling; allow post-flight event notes on the selected record; validate actual take-off/event/landing handlers.
+
 ## 1.4.0 — 2026-11-20
 
 Always-visible flight activity table and event entry; per-flight record inventory, linked briefing preview and complete JSON/readable HTML exports; automatic landing-download option; explained emergency recovery with safe append-only recovery merge.
