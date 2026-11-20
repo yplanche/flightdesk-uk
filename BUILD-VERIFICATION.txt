@@ -1,4 +1,6 @@
-Flightdesk UK v1.3.2
-Build: 1.3.2-12454360284ad6cd
-All 39 automated test programs passed. Browser confirmed limits, forecast/tools, radar, observations, decisions order; weatherack is the last Weather control; each relocated input occurs once. No app console errors observed.
-No production deployment or remote GitHub write.
+Flightdesk UK v1.4.0
+Build: 1.4.0-ef6e0bba1cd4ad11
+All 41 automated test programs passed.
+Browser QA: explicitly synthetic UNASSESSED take-off recovery, visible event entry, landing with automatic JSON download, linked HTML report/briefing preview, reload persistence, post-flight save, and final complete JSON with all three phases validated. Assessed launch gates unchanged.
+Worker gzip size: 377935 bytes; source archive assets deployed separately via included wrangler.toml.
+No real flight, remote GitHub write or production deployment performed.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 — 2026-11-20
+
+Always-visible flight activity table and event entry; per-flight record inventory, linked briefing preview and complete JSON/readable HTML exports; automatic landing-download option; explained emergency recovery with safe append-only recovery merge.
+
 ## 1.3.2 — 2026-11-20
 
 Reorder Weather: preset limits; forecasts with maps/charts/radar; observations; decisions. Move the overall weather acknowledgement to the end, with the local assessment and risk acknowledgement immediately before it. Preserve existing event handlers and review validation.

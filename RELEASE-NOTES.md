@@ -1,3 +1,15 @@
+# Flightdesk UK v1.4.0 — 20 November 2026
+
+Flight now shows a live event table, explicit flight reference selector, and event entry without nested disclosures. Recording take-off, events, abort intention and landing saves immediately in browser storage and updates the table. The active flight remains visible until closed. Flight recording remains manual, with assessed-launch gates unchanged.
+
+The Records and downloads panel shows saved briefing revisions, event count and saved debrief revisions for that flight. It provides complete-flight JSON (linked briefing + log + saved post-flight revisions), a readable HTML report with an event table, an embedded briefing preview and navigation to that flight’s debrief. JSON downloads are dated copies and do not update earlier disk files. A visible option defaults to requesting a complete JSON download at landing; browser download permissions still apply.
+
+The emergency recovery importer is under an explained Advanced recovery disclosure. It accepts Flightdesk unsaved event-log recovery JSON, not DJI telemetry or normal backup files. Normal imports remain at the top of the app. Recovery can now safely extend an existing saved sortie’s append-only event/debrief history while rejecting conflicting histories and multiple active flights. On write failure the saved log remains untouched and the unsaved recovery download is offered; normal complete downloads are blocked to prevent omission of the pending action.
+
+Historical source archives now deploy through the included Cloudflare static-assets binding instead of being embedded in Worker JavaScript, keeping the Worker small as release history grows. Existing source-download URLs are retained; local preview supports the same archive route. Upload the matching wrangler.toml with this release; the usual deploy command uploads those assets automatically.
+
+No storage schema migration, remote GitHub write or production deployment. Existing records and earlier workflow changes retained.
+
 # Flightdesk UK v1.3.2 — 20 November 2026
 
 Weather now follows the review sequence: preset aircraft/planning limits; forecast values and supporting charts/maps; recent radar; observations; decisions and final acknowledgement. Operator wind and visibility inputs move into the initial planning-limits panel, alongside precipitation thresholds. Manufacturer wind/temperature references appear there as text; their configuration remains editable in Aircraft.

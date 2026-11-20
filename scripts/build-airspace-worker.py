@@ -2,6 +2,7 @@ from pathlib import Path
 import json,base64,mimetypes
 root=Path(__file__).resolve().parents[1];assets={}
 for p in sorted((root/'dist').rglob('*')):
+ if p.suffix=='.zip':continue # Source archives deploy as separate static assets, not Worker code.
  if not p.is_file() or 'server' in p.relative_to(root/'dist').parts or '.openai' in p.relative_to(root/'dist').parts:continue
  name='/'+str(p.relative_to(root/'dist'));mime=mimetypes.guess_type(p.name)[0] or 'application/octet-stream'
  if p.suffix=='.webmanifest':mime='application/manifest+json'

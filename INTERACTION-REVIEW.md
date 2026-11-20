@@ -1,3 +1,7 @@
+# v1.4.0 flight activity and files review — 20 November 2026
+
+Flight log rendering uses saved data and keeps the active flight visible. Rows include take-off, event notes, landing and corrections, linked by stable flight identity to briefing/debrief revisions. Complete JSON and readable HTML are dated disk copies; browser autosave remains separate. Recovery is explicitly limited to unsaved Flightdesk log files. Desktop Chrome QA used an explicitly synthetic UNASSESSED recovery take-off, then an event and landing. All three rows appeared immediately; landing downloaded complete JSON. The downloaded JSON was validated for matching briefing/flight identity and all events; the HTML event table was checked. Reload plus draft recovery retained all rows. No actual flight was performed, and assessed launch gates were not bypassed. Historical interaction notes below apply to their named releases.
+
 # v1.3.2 weather layout review — 20 November 2026
 
 Layout-only revision: initial limits, forecast/chart/map/radar information, observations, then decisions. Existing field IDs and handlers retained. Required local assessment and forecast-risk acknowledgement precede the overall weather declaration, which is the final Weather control. Earlier verification notes below describe historical layouts, superseded by this release.

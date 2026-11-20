@@ -16,7 +16,8 @@
     "Local recovery/action feedback; paired visible forecast/observation layouts; sourced precipitation references and 3km NOTAM default; reordered field preparation",
     "Structured completion independent from suitability, traffic-light recommendations, source-linked final statuses, visible radar, timestamped inspection history and reviewed-forecast identity",
     "NOTAM collection and search outcomes, manual review completion distinct from suitability, clickable final airspace acknowledgement",
-    "Weather reordered limits/forecast maps radar/observations/decisions, with final acknowledgement last"
+    "Weather reordered limits/forecast maps radar/observations/decisions, with final acknowledgement last",
+    "Visible flight events, per-flight files/downloads, landing export and explained incremental emergency recovery"
   ],
   "vendor_files": {
     "dist/vendor/leaflet/leaflet.js": {
@@ -48,8 +49,8 @@
       "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da"
     }
   },
-  "packaged_release": "Flightdesk UK v1.3.2 weather sequence and final acknowledgement; based on delivered v1.3.1.",
-  "app_version": "1.3.2",
+  "packaged_release": "Flightdesk UK v1.4.0 visible flight log and linked downloads, based on delivered v1.3.2.",
+  "app_version": "1.4.0",
   "source_commit_meaning": "Actual user GitHub main baseline fetched read-only; this release includes subsequent uncommitted package changes.",
   "historical_package_baseline": "d2dce74ac52f833311e50c8451aaeced49f3f01b",
   "upstream_reviewed_commit": "dbc6ad1e2f4cf3ae6cd98dc9a786ec0ae36e731c"
