@@ -5,7 +5,7 @@
  */
 'use strict';
 // Change RELEASE whenever ANY cached app file changes. No live feeds or auth routes are cached.
-const RELEASE='6f15e7538b72d93b';
+const RELEASE='7a191b762085acff';
 const CACHE='flightdesk-shell-'+RELEASE;
 const CORE=['flight-log.js','inspection.js','assessment-core.js','weather-layout.css','precipitation.js','record-core.js','record-manager.js','phases.css','scope.js','onsite.js','lifecycle-core.js','lifecycle.js','maintenance.js','version.js','version-ui.js','legal/LICENSE','legal/COPYRIGHT.md','legal/NAME-AND-LOGO-POLICY.md','legal/THIRD-PARTY-NOTICES.md','legal/CHANGELOG.md','vendor/leaflet/images/layers-2x.png','vendor/leaflet/images/layers.png','vendor/leaflet/images/marker-icon-2x.png','vendor/leaflet/images/marker-icon.png','vendor/leaflet/images/marker-shadow.png','vendor/leaflet/leaflet.css','vendor/leaflet/leaflet.js','./','index.html','style.css','app.js','aircraft.js','rules.js','decision.js','equipment.js','operations.js','weather-chart.js','weather-map.js','weather-geo.js','field-workflow.js','completion-core.js','form-completion.js','pwa.js','backup.js','airspace-core.js','airspace-ui.js','manifest.webmanifest','icons/icon-180.png','icons/icon-192.png','icons/icon-512.png'];
 const base=new URL('./',self.location.href);

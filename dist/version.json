@@ -1,9 +1,9 @@
 {
-  "appVersion": "1.4.1",
+  "appVersion": "1.6.0",
   "sourceRevision": null,
-  "sourceFingerprint": "57cf81296c47d3caf77ba05026e92145df849aaebe165df8f352db89c61aee23",
-  "buildId": "1.4.1-57cf81296c47d3ca",
-  "buildDate": "2026-11-20T16:29:54Z",
-  "sourceArchive": "releases/flightdesk-uk-1.4.1-57cf81296c47d3ca.zip",
+  "sourceFingerprint": "41654be5e9769d7afeb2a28cb7ed75e3d64238ab7e7ace44acb877fe11bc8d3c",
+  "buildId": "1.6.0-41654be5e9769d7a",
+  "buildDate": "2026-11-20T17:09:10Z",
+  "sourceArchive": "releases/flightdesk-uk-1.6.0-41654be5e9769d7a.zip",
   "licence": "AGPL-3.0-only"
 }

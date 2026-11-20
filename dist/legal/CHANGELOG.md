@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.0 — 2026-11-20
+
+Reordered aircraft limits and VLOS guidance. Weather operator wind initially matches the displayed manufacturer limit. Battery time planning precedes cell checks, with editable 20% reserve/2min contingency, source-labelled manufacturer estimates and saved battery-set settings/history. Fresh controller charge and pilot confirmation remain required.
+
+## 1.5.0 — 2026-11-20
+
+Independent field logging before take-off and after landing. Record take-off without a completed pre-flight; link a selected saved/imported briefing without revalidating or changing it. Preserve storage failure and single-airborne-flight safeguards. Ground-only sessions have no invented flight times.
+
 ## 1.4.1 — 2026-11-20
 
 Match Night field width to Purpose; explicit Airborne/Not airborne status and second-resolution elapsed/frozen-duration clock; record landing times/duration in log; visible action feedback and disabled styling; allow post-flight event notes on the selected record; validate actual take-off/event/landing handlers.
