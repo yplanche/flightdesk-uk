@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.1 — 2026-11-20
+
+Fix detached weather input lookup during startup that interrupted aircraft defaults, navigation, saved records and flight rendering. Restore latest recorded activity on reload while preserving explicit new-flight selection. Reviewed full-page runtime and takeoff/event/landing/export/debrief integration in browser.
+
 ## 1.6.0 — 2026-11-20
 
 Reordered aircraft limits and VLOS guidance. Weather operator wind initially matches the displayed manufacturer limit. Battery time planning precedes cell checks, with editable 20% reserve/2min contingency, source-labelled manufacturer estimates and saved battery-set settings/history. Fresh controller charge and pilot confirmation remain required.

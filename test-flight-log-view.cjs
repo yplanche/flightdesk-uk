@@ -7,3 +7,5 @@ assert.equal(C.mergeRecovery(air,log).sorties[0].events.length,3,'Unsaved landin
 const conflict=structuredClone(log);conflict.sorties[0].events[0].notes='changed';assert.throws(()=>C.mergeRecovery(air,conflict),/Conflicting/);assert.equal(air.sorties[0].events.length,1);
 const other=C.start(empty,{...start,id:'other',briefing:{...brief,id:'b2',missionId:'m2'}});assert.throws(()=>C.mergeRecovery(air,other),/active flight/);
 console.log('Visible flight log: ordered take-off/event/landing rows, linked complete JSON, escaped readable event table; incremental recovery preserves immutable history, rejects conflicts/multiple active flights and never rolls back.');
+
+assert.equal(V.initialTarget([{id:'planned',sorties:[]},{id:'last-flight',sorties:[{}]}],'new-draft',true),'last-flight','Reload reveals the most recent recorded activity');assert.equal(V.initialTarget([{id:'current',sorties:[]},{id:'last-flight',sorties:[{}]}],'current',true),'current','Saved current plan takes priority');assert.equal(V.initialTarget([{id:'last-flight',sorties:[{}]}],'new-flight',false),'new-flight','Explicit new flight stays selected');
