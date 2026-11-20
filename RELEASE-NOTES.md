@@ -1,3 +1,9 @@
+# Flightdesk UK v1.3.2 — 20 November 2026
+
+Weather now follows the review sequence: preset aircraft/planning limits; forecast values and supporting charts/maps; recent radar; observations; decisions and final acknowledgement. Operator wind and visibility inputs move into the initial planning-limits panel, alongside precipitation thresholds. Manufacturer wind/temperature references appear there as text; their configuration remains editable in Aircraft.
+
+The required local assessment and forecast-risk acknowledgement are in the final Decisions panel. The overall weather-review checkbox is the last control in Weather. Existing inputs, recorded-value bindings, declaration dependencies and weather suitability rules are retained. No record migration, production deployment or remote GitHub write was performed.
+
 # Flightdesk UK v1.3.1 — 20 November 2026
 
 - NOTAM outcomes explicitly distinguish pending/not loaded, retrieval failed, independent archive, old collection, incomplete/unknown time coverage, current local matches, uncertain locations and no relevant matches. Generation time, declared coverage and requested window are shown separately.

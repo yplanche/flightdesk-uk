@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2 — 2026-11-20
+
+Reorder Weather: preset limits; forecasts with maps/charts/radar; observations; decisions. Move the overall weather acknowledgement to the end, with the local assessment and risk acknowledgement immediately before it. Preserve existing event handlers and review validation.
+
 ## 1.3.1 — 2026-11-20
 
 Explain collection generation age separately from time coverage and notice effective dates; distinguish no matches from uncertain/unlocated and failed searches; make final airspace acknowledgement clickable and independent of operational suitability. Recorded official manual review resolves supplier gaps without clearing unresolved permissions.

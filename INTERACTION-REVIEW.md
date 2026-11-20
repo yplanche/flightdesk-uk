@@ -1,3 +1,7 @@
+# v1.3.2 weather layout review — 20 November 2026
+
+Layout-only revision: initial limits, forecast/chart/map/radar information, observations, then decisions. Existing field IDs and handlers retained. Required local assessment and forecast-risk acknowledgement precede the overall weather declaration, which is the final Weather control. Earlier verification notes below describe historical layouts, superseded by this release.
+
 # v1.3.1 focused interaction verification — 20 November 2026
 
 Browser QA used the existing explicitly synthetic local test flight. No real flight or official clearance was recorded. Existing records were retained.

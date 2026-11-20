@@ -1,5 +1,4 @@
-Flightdesk UK v1.3.1
-Build: 1.3.1-dc0f360e6c6a61ca
-All 39 automated test programs passed after a complete build.
-Focused browser verification: INTERACTION-REVIEW.md.
-No remote GitHub modification or production deployment.
+Flightdesk UK v1.3.2
+Build: 1.3.2-12454360284ad6cd
+All 39 automated test programs passed. Browser confirmed limits, forecast/tools, radar, observations, decisions order; weatherack is the last Weather control; each relocated input occurs once. No app console errors observed.
+No production deployment or remote GitHub write.
