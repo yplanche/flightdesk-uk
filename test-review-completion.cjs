@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),A=require('./dist/assessment-core.js'),assess=require('./dist/decision.js'),B=require('./dist/backup.js');
+const h={wind:3,gust:5,wind80:4,rain:0,prob:10,visibility:12000,temperature:15};
+const onsite={status:'acceptable',reviewedAt:'2026-11-20T11:00:00Z',conditions:{},valid:true,reasons:[]};
+const s={online:true,duration:15,weatherAge:2,weather:[h,h],coverage:true,maxwind:12,opwind:8,mintemp:-10,maxtemp:40,minvis:1000,maxrain:0,maxprob:20,weatherAcknowledged:true,daylight:true,night:'no',onsite};
+assert.equal(A.weather(s).complete,true);assert.equal(A.weather(s).risk,'clear');
+for(const delta of [{duration:null},{weatherAge:20},{coverage:false},{weatherAcknowledged:false},{onsite:{...onsite,reviewedAt:null}},{weather:[{...h,gust:null}]}])assert.equal(A.weather({...s,...delta}).complete,false);
+const risky={...s,weather:[{...h,gust:10}],weatherRiskAcknowledged:true};assert.equal(A.weather(risky).complete,true);assert.equal(A.weather(risky).risk,'caution');assert.equal(A.weather({...risky,weatherRiskAcknowledged:false}).complete,false);
+for(const status of ['uncertain','unacceptable']){const r=A.weather({...s,onsite:{...onsite,status,valid:false,reasons:['Actual assessment unsuitable']}});assert.equal(r.complete,true);assert.equal(r.risk,'unsuitable');}
+assert.equal(A.weather({...s,onsite:{...onsite,conditions:{wind:'bad'}}}).complete,false);
+assert.equal(A.section({rows:[{id:'x',required:false,state:'empty'}],risk:'unsuitable'}).complete,true);
+assert.equal(A.section({rows:[{id:'x',required:true,state:'empty'}]}).complete,false);
+assert.equal(A.label('go'),'Recommendation is “go”');assert.equal(A.label('warning'),'Recommendation is “fly with caution”');assert.equal(A.label('no-go'),'Recommendation is “conditions unsuitable”');
+const forecast={hourly:{time:['2026-11-20T11:00','2026-11-20T12:00','2026-11-20T13:00'],gust:[5,6,7]},daily:{time:['2026-11-20'],sunrise:['2026-11-20T07:00']}};
+const key=A.forecastKey(forecast,'2026-11-20T11:20',15);let next=structuredClone(forecast);next.hourly.gust[2]=90;assert.equal(A.forecastKey(next,'2026-11-20T11:20',15),key);next.hourly.gust[1]=8;assert.notEqual(A.forecastKey(next,'2026-11-20T11:20',15),key);
+const app=fs.readFileSync('dist/app.js','utf8'),ops=fs.readFileSync('dist/operations.js','utf8'),scope=fs.readFileSync('dist/scope.js','utf8');
+assert(app.includes('weatherLoading=true;reset(7)'));assert(!app.includes("reset(7);clearWeather('Loading forecast"));assert(ops.includes('weatherAge:!weatherLoading&&fetchedAt?'));assert(ops.includes('FLIGHT_ASSESSMENT.forecastKey'));assert(ops.includes("if(args[0]!==7)$('finalconfirm').checked=false"),'Identical weather refresh must preserve the final declaration');assert(!ops.includes('JSON.stringify(data?.hourly'));
+assert(!scope.includes("$('finalconfirm').checked"),'Derived VLOS cannot depend on the following final declaration');assert(scope.includes("c.type='hidden'"));
+const e={id:'inspection-one',batteryKey:'b',recordedAt:'2026-11-20T11:00:00Z',inspectionDate:'2026-11-20',inspectedAt:'2026-11-20T11:00:00Z'},old={key:'b',health:'quarantine',cellFault:{failed:true},inspection:'2026-11-19',inspectionHistory:[]},incoming={key:'b',health:'ready',inspection:'2026-11-20',inspectionAt:e.inspectedAt,inspectionHistory:[e]};
+const merged=B.merge([old],[incoming],'key')[0];assert.equal(merged.health,'quarantine');assert.deepEqual(merged.cellFault,old.cellFault);assert.equal(merged.inspectionAt,e.inspectedAt);assert.equal(B.merge([merged],[incoming],'key')[0].inspectionHistory.length,1);assert.throws(()=>B.merge([merged],[{...incoming,inspectionHistory:[{...e,inspectionDate:'2026-11-19'}]}],'key'),/Conflicting/);
+assert(fs.readFileSync('dist/field-workflow.js','utf8').includes('r.missionId===window.flightMissionAPI?.current()?.missionId'),'Phase navigation must refer to the current flight, not unrelated historical selection');
+console.log('Review completion: explicit dependencies, complete unsafe assessments, independent suitability, traffic-light wording, relevant forecast identity, refresh preservation, noninteractive derived review, and immutable inspection backup merge passed.');

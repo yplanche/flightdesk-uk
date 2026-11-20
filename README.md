@@ -1,10 +1,10 @@
 # Flightdesk UK — complete independent package
 
-Release **1.2.0 · 19 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
+Release **1.3.1 · 20 November 2026**. Includes pre-flight briefing, session-based NOTAM review, manual in-flight recording, post-flight debriefs, reusable setup profiles, recoverable drafts, safer backups and AGPL/version notices. Start with **UPLOAD-TO-GITHUB.md** for your existing GitHub/Cloudflare deployment; **START-HERE.md** covers independent local use.
 
 This package can run without ChatGPT or the original Flightdesk website. It includes editable frontend source, the aviation-data proxy, prebuilt combined server, manufacturer catalogue and source links, PWA icons/manifest/service worker, tests, build tools and independent deployment configuration. Node.js runs the application without installing any npm packages. Python is used to rebuild and run the complete test suite. 
 
-Version 1.2.0 separates Forecast and Observations, makes record-action blockers explicit, and starts NOTAM screening at 3 km. Battery follows aircraft; weather immediately precedes final review.
+Version 1.3.1 separates completion from suitability, clarifies final-review controls, keeps weather/radar reviews visible and adds timestamped battery inspections. NOTAM screening starts at 3 km. Battery follows aircraft; weather immediately precedes final review.
 
 ## Flight records
 

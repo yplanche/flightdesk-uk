@@ -1,6 +1,6 @@
 # Update your existing GitHub and Cloudflare installation
 
-This is Flightdesk UK **v1.2.0**, based on your GitHub main commit `b6951b076620665ecb7da988ef55961a9d1592f6`. It includes the linked record workflow described in RECORDS-GUIDE.md. Preserve any newer customisations before replacing matching files.
+This is Flightdesk UK **v1.3.1**, based on your GitHub main commit `dbc6ad1e2f4cf3ae6cd98dc9a786ec0ae36e731c`. It includes the linked record workflow described in RECORDS-GUIDE.md. Preserve any newer customisations before replacing matching files.
 
 ## 1. Back up your data
 
@@ -8,7 +8,7 @@ On your existing Flightdesk address, save important briefings and select **Downl
 
 ## 2. Extract and inspect
 
-Extract `Flightdesk-UK-v1.2.0-complete.zip`. Its top level contains everything to upload. Read `RELEASE-NOTES.md`, `COPYRIGHT.md` and `NAME-AND-LOGO-POLICY.md`.
+Extract `Flightdesk-UK-v1.3.1-complete.zip`. Its top level contains everything to upload. Read `RELEASE-NOTES.md`, `COPYRIGHT.md` and `NAME-AND-LOGO-POLICY.md`.
 
 The user has selected AGPL-3.0-only for first-party code. The copyright/brand rights holder and contact have not been independently established. Complete that review before a public legal release; the notices do not invent ownership or imply Imperial approval. Editing notices changes the source fingerprint, so make those edits before building your reviewed release; use the release version command if changing an already sealed release.
 
@@ -38,7 +38,7 @@ Replace matching files with the supplied versions. Keep existing GitHub reposito
 
 `dist/` includes the editable browser app, generated server, exact-version source download, offline assets and legal notices. Upload it completely. `.gitignore` and `.dockerignore` are useful but their absence does not prevent this deployment; do not upload secrets or personal backups.
 
-Commit the changes with a message such as `Release Flightdesk UK v1.2.0`.
+Commit the changes with a message such as `Release Flightdesk UK v1.3.1`.
 
 ## 4. Check your existing Cloudflare Worker build
 
@@ -58,7 +58,7 @@ The package is already built. The Cloudflare build regenerates the server and ve
 
 ## 5. Verify the deployed result
 
-Open your existing Worker URL. About/footer should display **Flightdesk UK v1.2.0**. Compare its build ID with `dist/version.json`. Verify the source download opens, postcode/GPS selection works, map/forecast failures are explained honestly, and the independent official airspace review route remains available.
+Open your existing Worker URL. About/footer should display **Flightdesk UK v1.3.1**. Compare its build ID with `dist/version.json`. Verify the source download opens, postcode/GPS selection works, map/forecast failures are explained honestly, and the independent official airspace review route remains available.
 
 An installed PWA may still show the previous running version. Open online and use **Apply update & reload** when no flight is recorded airborne. The update action is deferred during an active flight. Recover the saved draft setup if desired; live checks and readings require review. Saved records at the same origin are retained. A different hostname/browser/device requires a JSON import.
 
@@ -74,7 +74,7 @@ This ZIP has not been uploaded to your GitHub repository or deployed to your Clo
 
 The original 1.0.0 local-release seal was too strict for normal uploads and builds. Missing optional files, line-ending changes or real edits can change a source fingerprint. Ordinary builds now warn and generate their own exact matching build/source archive instead of stopping. Explicit release sealing still rejects reusing a sealed version for changed source. No Cloudflare setting needs to change.
 
-Check the Cloudflare deployment is building the **latest final commit**, not retrying an older failed commit. The build log must show App version: **1.2.0-…**.
+Check the Cloudflare deployment is building the **latest final commit**, not retrying an older failed commit. The build log must show App version: **1.3.1-…**.
 
 ## Complete source upload required
 

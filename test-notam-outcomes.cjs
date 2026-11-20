@@ -1,0 +1,26 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),A=require('./dist/airspace-core.js');
+const now=Date.parse('2026-11-20T12:00Z'),start=now,end=now+3600000,feed={issued:'2026-11-20T11:30Z',validFrom:'2026-11-20T10:00Z',validTo:'2026-11-27T00:00Z'};
+const health=(delta={},request={state:'succeeded',lastManualAt:'2026-11-20T12:00Z'})=>A.collectionHealth({feed:{...feed,...delta},request,start,end,now});
+assert.equal(health().code,'current');assert.match(health().message,/issued earlier/);
+const stale=health({issued:'2026-11-20T08:00Z'});assert.equal(stale.stale,true);assert.equal(stale.windowMissing,false);assert.match(stale.message,/generation time|collection is stale/);assert.match(stale.message,/not the age of individual/);
+const partial=health({validTo:'2026-11-20T12:30Z'});assert.equal(partial.code,'coverage');assert.equal(partial.stale,false);assert.match(partial.message,/12:30/);
+const both=health({issued:'2026-11-20T08:00Z',validTo:'2026-11-20T12:30Z'});assert(both.stale&&both.windowMissing);assert.match(both.message,/does not cover/);
+assert.equal(health({validFrom:null}).coverageKnown,false);assert.equal(health({mirror:true}).code,'archive');
+for(const code of ['pending','failed'])assert.equal(A.collectionHealth({feed,request:{state:code},start,end,now}).code,code);
+assert.equal(A.collectionHealth({request:{state:'idle'},start,end,now}).code,'missing');
+assert.equal(A.searchOutcome({health:health(),nearby:0,unlocated:0}).kind,'none');assert.match(A.searchOutcome({health:health(),nearby:0,unlocated:0}).message,/Older notices active/);
+assert.equal(A.searchOutcome({health:health(),nearby:1}).kind,'found');assert.match(A.searchOutcome({health:health(),unlocated:2}).message,/not a no-NOTAM result/);
+for(const h of [stale,partial,both,A.collectionHealth({feed,request:{state:'failed'},start,end,now})])assert.match(A.searchOutcome({health:h}).message,/zero candidates is not a verified negative/);
+const old={id:'A1000/26',type:'N',start:'2611010000',end:'2611302359',body:'TEST active throughout November',coordinate:'5130N00010W',radius:'1',lower:'SFC',upper:'500 FT AGL'};
+assert.equal(A.screenNotams([old],{point:{lat:51.5,lon:-1/6},radius:3000,start,end,maxHeight:120}).nearby.length,1,'Earlier effective notice must still be included');
+const ui=fs.readFileSync('dist/airspace-ui.js','utf8'),ops=fs.readFileSync('dist/operations.js','utf8'),scope=fs.readFileSync('dist/scope.js','utf8');assert(scope.includes('const derived=[0,4,7,8]'),'Airspace final acknowledgement remains a genuine checkbox');assert(!scope.includes('const derived=[0,1,'));assert(ops.includes('airspaceReview:!!airspace?.reviewComplete'));
+// Exercise actual review function with unusable feed and completed official review.
+const nodes={},el=id=>nodes[id]??={value:'',checked:false,validity:{valid:true}};let permission='resolved';
+const ctx={window:{},A:{collectionHealth:()=>({usable:false,message:'TEST stale source'})},values:()=>({radius:3000,start:now,windowStart:start,windowEnd:end}),site:{lat:51.5,lon:-.16},el,Date,manualNotamAt:new Date().toISOString(),manualNotamSignature:'',notamRequest:{state:'failed'},notamFeed:null,feeds:{},results:()=>({v:{radius:3000,start:now,windowStart:start,windowEnd:end},ready:true}),signature:()=> 'same-review',reviewedSignature:'same-review',navigator:{onLine:true},beforeFlightCheck:null,noticeChangeState:null};
+el('airspacepermissionstate').value='resolved';el('briefingref').value='SYNTHETIC TEST official briefing reference/time';el('notammanual').checked=true;el('airspacereviewed').checked=true;el('height').value='120';el('aircraftselect').value='TEST';el('date').value='2026-11-20';
+vm.createContext(ctx);vm.runInContext(ui.slice(ui.indexOf('function manualSignature()'),ui.indexOf('function invalidate()'))+ui.slice(ui.indexOf('window.flightAirspaceReview='),ui.indexOf('window.flightAirspaceBeginSortie=')),ctx);ctx.manualNotamSignature=ctx.manualSignature();
+assert.equal(ctx.window.flightAirspaceReview().reviewComplete,true);assert.equal(ctx.window.flightAirspaceReview().go,true,'Independent review can resolve stale feed/missing supplementary layers');
+el('airspacepermissionstate').value='unresolved';assert.equal(ctx.window.flightAirspaceReview().reviewComplete,true,'Unresolved restriction can be a completed assessment');assert.equal(ctx.window.flightAirspaceReview().go,false,'Recorded review never clears unresolved restrictions');assert.equal(ctx.manualReview().reviewComplete,true,'Changing permissions assessment does not erase official NOTAM review');
+el('briefingref').value='';assert.equal(ctx.window.flightAirspaceReview().reviewComplete,false);assert.equal(ctx.window.flightAirspaceReview().go,false);
+const noteHandlers=ui.slice(ui.indexOf("el('briefingref').addEventListener('input'"),ui.indexOf("el('importpib').onchange"));assert(!noteHandlers.includes('refreshView()'),'Editing/blur of a briefing note must not rebuild and move the notice list during checkbox clicks');
+console.log('NOTAM outcomes: pending/failure/archive/stale/partial/both/current/empty/unlocated/old-active notices; independent completed review unlocks final acknowledgement without bypassing unresolved restrictions.');

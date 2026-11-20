@@ -1,3 +1,29 @@
+# Flightdesk UK v1.3.1 — 20 November 2026
+
+- NOTAM outcomes explicitly distinguish pending/not loaded, retrieval failed, independent archive, old collection, incomplete/unknown time coverage, current local matches, uncertain locations and no relevant matches. Generation time, declared coverage and requested window are shown separately.
+- Older notices remain included when active in the screening window. Zero local matches never establish a clear result when the collection is unusable or unlocated notices remain.
+- The final Airspace considered row is now a genuine clickable declaration. Its source review can complete through the current automated collection plus official briefing record, or a recorded independent official briefing when data is stale/unavailable. The app does not require a successful supplier refresh for the independent route.
+- Review completion and resolved restrictions are separate. An assessed unresolved restriction can be recorded, but continues to block go/take-off. Changing the permissions answer does not erase the independent NOTAM review; changes to site, session, aircraft, radius or height still invalidate applicable reviews.
+- Corrected an old help reference to a fixed ±2-hour window: the displayed operating-session screening interval is the actual review scope.
+
+Compatible with existing records/backups; historical snapshots retained. No remote deployment performed. No new regulatory or manufacturer audit. Download all app data before updating.
+
+# Flightdesk UK v1.3.0 — 20 November 2026
+
+Prepared from GitHub main `dbc6ad1e2f4cf3ae6cd98dc9a786ec0ae36e731c`. No remote repository or production deployment was changed.
+
+- Required answers/reviews control completion colour. A completed review can identify unsuitable conditions: its green completion badge is separate from the orange/red operational risk badge. Weather no longer uses text matching against global blockers to decide whether its section is complete.
+- Recommendations now read “go” (green), “fly with caution” (orange) and “conditions unsuitable” (red). Internal historical status codes remain compatible.
+- Calculated final-review rows are status text with source links. Actual declarations remain clickable. VLOS summary no longer depends circularly on the following final declaration.
+- Forecast source, interval, values and required acknowledgements are visible together; radar always has a visible panel. On-site observations and assessment follow in a matching layout. Critical reviews are not nested in disclosures.
+- Forecast review is retained for identical values over the reviewed flight interval. Pending refresh temporarily blocks current weather completion; changed relevant values or a failed refresh require renewed review. Unrelated forecast hours do not reset the declaration.
+- Today · inspected now records the actual instant plus London date/time. Selected saved batteries update immediately; a new/changed battery editor must be saved. Inspection history is retained in backups without clearing faults/quarantine. Legacy date-only inspections retain unknown time.
+- Unsaved battery editor changes are identified explicitly; save the record or cancel edits before proceeding. Take-off recording has a local explanation when unavailable.
+
+Existing browser data and backup schemas remain compatible. Download all data before updating. Newly added timestamps are optional for older records; saved historical briefings are not rewritten. No paid weather subscriptions were added.
+
+This is a workflow/software update, not a new regulatory/manufacturer audit or CAA certification. Forecast, radar and airspace providers may be unavailable; the app must display those failures and retain the independent briefing route.
+
 # Flightdesk UK v1.2.0 — 19 November 2026
 
 Reassessed against the user's GitHub main at `b6951b076620665ecb7da988ef55961a9d1592f6` (v1.1.0 upload). No remote repository or production deployment was modified.

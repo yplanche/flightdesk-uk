@@ -1,7 +1,7 @@
 {
   "application": "Flightdesk UK",
-  "packaged_date": "2026-11-19",
-  "source_commit": "ae27d4ff6ee8db34bae14cd2d963213af3421242",
+  "packaged_date": "2026-11-20",
+  "source_commit": "dbc6ad1e2f4cf3ae6cd98dc9a786ec0ae36e731c",
   "package_changes": [
     "Leaflet 1.9.4 vendored with its licence and precached",
     "Independent run/build/deployment documentation and configuration added",
@@ -13,7 +13,9 @@
     "Reusable setup profiles, draft recovery and protected local backups",
     "Complete 1.0.2 source upload manifest, early API consistency checks and Cloudflare fingerprint fix",
     "Explicit stable flight identities, grouped phase records, resume/new workflow, debrief draft recovery and complete-flight export/import",
-    "Local recovery/action feedback; paired visible forecast/observation layouts; sourced precipitation references and 3km NOTAM default; reordered field preparation"
+    "Local recovery/action feedback; paired visible forecast/observation layouts; sourced precipitation references and 3km NOTAM default; reordered field preparation",
+    "Structured completion independent from suitability, traffic-light recommendations, source-linked final statuses, visible radar, timestamped inspection history and reviewed-forecast identity",
+    "NOTAM collection and search outcomes, manual review completion distinct from suitability, clickable final airspace acknowledgement"
   ],
   "vendor_files": {
     "dist/vendor/leaflet/leaflet.js": {
@@ -45,9 +47,9 @@
       "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da"
     }
   },
-  "packaged_release": "Flightdesk UK v1.2.0 explicit action feedback and weather workflow; independent upload package, not production publication.",
-  "app_version": "1.2.0",
+  "packaged_release": "Flightdesk UK v1.3.1 NOTAM outcomes and explicit final airspace review; based on delivered v1.3.0, not production publication.",
+  "app_version": "1.3.1",
   "source_commit_meaning": "Actual user GitHub main baseline fetched read-only; this release includes subsequent uncommitted package changes.",
   "historical_package_baseline": "d2dce74ac52f833311e50c8451aaeced49f3f01b",
-  "upstream_reviewed_commit": "b6951b076620665ecb7da988ef55961a9d1592f6"
+  "upstream_reviewed_commit": "dbc6ad1e2f4cf3ae6cd98dc9a786ec0ae36e731c"
 }
