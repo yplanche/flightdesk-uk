@@ -134,3 +134,9 @@ The 50 MB file limit is not a promise that a browser can store 50 MB. Browser qu
 - Planner drafts recover setup/observations as references, clearing live declarations/readings. Save debrief revisions explicitly: typing an unfinished debrief is not a durable debrief record.
 
 See BUILD-VERIFICATION.txt for the completed test and browser checks and UPLOAD-TO-GITHUB.md for exact deployment steps.
+
+
+Version 1.5.0: Flight recording works independently of pre-flight readiness, including offline. Import a saved briefing using the normal import control, then select its reference in Flight shown. Log event works before take-off, airborne and after landing. Ground events, take-off, landing and debrief share one reference. Current setup without a saved briefing is explicitly identified as setup only. Recording remains UNASSESSED and never changes the pre-flight recommendation.
+
+
+Version 1.6.0: Aircraft temperature limits share a row before manufacturer wind; Open Category VLOS scope follows manual notes. Weather shows the manufacturer wind beside the editable operator wind, initially set to the manufacturer value. Battery selection supplies editable 20% landing reserve, 2min contingency and a manufacturer-derived full-charge-to-reserve suggestion, or the matching saved battery settings. Charge and time planning precede cell checks. Current controller charge is never inferred from a stored charge. Valid flight-time edits (on leaving an input), or battery-readiness confirmation, save set-specific settings with provenance/history; changing reserve proportionally rescales the reference time as a linear estimate. These defaults never confirm health or readiness automatically.

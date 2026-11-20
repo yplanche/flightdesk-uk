@@ -18,7 +18,9 @@
     "NOTAM collection and search outcomes, manual review completion distinct from suitability, clickable final airspace acknowledgement",
     "Weather reordered limits/forecast maps radar/observations/decisions, with final acknowledgement last",
     "Visible flight events, per-flight files/downloads, landing export and explained incremental emergency recovery",
-    "Compact Night field, explicit live/frozen flight clock, durable landing duration and post-landing notes with action-handler regression"
+    "Compact Night field, explicit live/frozen flight clock, durable landing duration and post-landing notes with action-handler regression",
+    "Independent factual take-off and ground recording; selected imported briefing linked without preflight gate.",
+    "Paired temperature fields, adjacent weather wind reference/default, relocated VLOS scope and early battery planning with saved set-specific endurance and editable 20%/2min defaults."
   ],
   "vendor_files": {
     "dist/vendor/leaflet/leaflet.js": {
@@ -50,8 +52,8 @@
       "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da"
     }
   },
-  "packaged_release": "Flightdesk UK v1.4.1 explicit flight status/timer, action feedback and event duration, based on delivered v1.4.0.",
-  "app_version": "1.4.1",
+  "packaged_release": "Flightdesk UK v1.6.0 aircraft/weather layout and battery-set flight-time defaults",
+  "app_version": "1.6.0",
   "source_commit_meaning": "Actual user GitHub main baseline fetched read-only; this release includes subsequent uncommitted package changes.",
   "historical_package_baseline": "d2dce74ac52f833311e50c8451aaeced49f3f01b",
   "upstream_reviewed_commit": "dbc6ad1e2f4cf3ae6cd98dc9a786ec0ae36e731c"

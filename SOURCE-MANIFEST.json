@@ -1,7 +1,7 @@
 {
   "format": "flightdesk-source-manifest",
   "version": 1,
-  "appVersion": "1.4.1",
+  "appVersion": "1.6.0",
   "requiredFiles": [
     "CHANGELOG.md",
     "COPYRIGHT.md",
@@ -111,7 +111,9 @@
     "worker/FFLATE-LICENSE.txt",
     "worker/fflate.mjs",
     "worker/index.mjs",
-    "wrangler.toml"
+    "wrangler.toml",
+    "test-independent-recording.cjs",
+    "test-flight-time-presets.cjs"
   ],
   "airspaceExports": [
     "londonDateTime",
