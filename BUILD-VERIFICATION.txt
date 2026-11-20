@@ -1,16 +1,21 @@
-Flightdesk UK 1.1.0 — 19 November 2026
-Baseline: user GitHub main ae27d4ff6ee8db34bae14cd2d963213af3421242, fetched read-only.
-33 test files passed (full suite), including two new record-management/lifecycle regression files.
-Browser QA with synthetic local records:
-- Saved tomorrow's incomplete briefing; unchanged save retained one revision.
-- Created another flight using setup: new full ID; original retained.
-- Resumed first plan: original full ID, date and 10:15 time retained.
-- Opened historical flight/debrief separately from the pre-flight editor.
-- Unsaved debrief switch offered Save/Discard/Cancel; Cancel retained text and Save persisted before switching.
-- Unfinished debrief recovered after reload; saved debrief revisions remained separate.
-- Synthetic UNASSESSED take-off, landing and completed debrief grouped under one flight ID with launch briefing and two events.
-- Archived pre-flight save disabled after recorded take-off/outcome.
-- New blank plan completion returns to orange; saved record search/filter and complete-flight JSON download work.
-- No application console errors in checked browser session.
-No real aircraft operated; no GO manufactured; no live-data provider/compliance audit claimed.
-No GitHub push or Cloudflare deployment performed. Source ZIP contains no browser records.
+Flightdesk UK v1.2.0 — 19 November 2026
+35 test files passed after final source build.
+Reviewed user's upstream main b6951b076620665ecb7da988ef55961a9d1592f6 read-only; existing v1.1.0 application source retained and revised.
+New regression tests cover visible action-blocker feedback, saved-plan preservation, active-flight guards, sourced precipitation references, no unsupported IP/day-to-hour conversion, unknown model handling and default 3km envelope.
+Existing lifecycle, backup/import/conflict, weather, airspace, battery, declaration, PWA and reproducible release tests remain enabled.
+Browser QA with synthetic records:
+- Reproduced original new-from-saved no-effect case: recovery pending, only top status explained why.
+- Revised action presents recovery/start-fresh choices locally and explicit blocker text.
+- Start fresh retains saved histories; new-from-saved creates a new displayed/full identity and prepopulated mission title.
+- Create new from current setup creates another new identity and saves named current plan first.
+- Recovery restores same flight identity and setup; actual readings are references and review resets.
+- Forecast and Observations are visible distinct sections with corresponding five-measure layouts; unknown observations stay blank.
+- Live postcode and forecast retrieval succeeded for public test site; forecast model values were distinct from typed observations.
+- Observed 0.5mm/h vs dry-weather 0 threshold blocked actual review. Increasing threshold for a verified no-rain aircraft produced an explicit readiness blocker.
+- Radius starts at3000m; changing to3500m automatically recalculates map/screening. Retained feed incompleteness remained honestly labelled for official/manual review.
+- Backup and selected-flight HTML download buttons produced output. Record JSON/restore round-trips covered by regression suite.
+- Prepared for current PWA update without deleting existing browser storage.
+No real aircraft operated; no assessed GO fabricated. Destructive deletion/deployment/account changes not performed.
+No claim of an exhaustive CAA/manufacturer audit; provider freshness/coverage remains subject to its displayed limitations.
+Package contains no browser records. GitHub/Cloudflare production not modified remotely.
+Final review save button persisted a dated briefing revision; final browser session had no application console errors. Legacy duplicate forecast metrics remain hidden after live refresh.

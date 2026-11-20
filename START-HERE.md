@@ -1,4 +1,4 @@
-# Flightdesk UK 1.1.0 — complete upload
+# Flightdesk UK 1.2.0 — complete upload
 
 For your current GitHub/Cloudflare installation, read UPLOAD-TO-GITHUB.md. This package includes explicit linked flight records and the complete matching application source. Read RECORDS-GUIDE.md before use.
 

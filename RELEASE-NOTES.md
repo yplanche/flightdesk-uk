@@ -1,3 +1,17 @@
+# Flightdesk UK v1.2.0 — 19 November 2026
+
+Reassessed against the user's GitHub main at `b6951b076620665ecb7da988ef55961a9d1592f6` (v1.1.0 upload). No remote repository or production deployment was modified.
+
+- Fixed apparently inactive new-flight actions: pending recovery was only explained elsewhere. Recovery choices and clear result/blocker messages now appear in the record manager. Successful actions reveal the changed editor; existing saved histories remain intact.
+- Added explicit feedback for reusable-setup apply/remove actions when nothing is selected.
+- Reordered preparation: project, site/time, crew, aircraft, battery, airspace, weather, final review, flight, post-flight.
+- Separated visible Forecast and Observations sections with matching wind, gust, precipitation, temperature and visibility cards. Observation inputs are no longer hidden in a nested disclosure. Unknown readings stay blank; observed exceedances block assessed take-off. Creating a new flight clears observations; resuming same-flight references requires fresh confirmation.
+- Moved precipitation rate/probability planning thresholds from Aircraft to Weather. Added sourced rain guidance for Mavic 3, Mavic 3 Enterprise/M3M, Matrice 4E/T, M300 and M350 configurations where verified. Known no-rain guidance cannot be raised by an operator threshold. Other models remain explicitly unverified with a conservative 0 mm/h suggestion.
+- Manufacturer IP/daily rainfall statements remain source references; no unsupported hourly conversion is performed. Probability stays an operator planning choice and is not prefilled as a manufacturer tolerance.
+- NOTAM/mission search radius starts at 3000 m (3 km). Typing changes invalidate earlier review immediately and debounce map/list recalculation; no refresh-button press is required for radius screening. Full-collection feeds retain their true freshness/coverage status and official briefing requirements.
+
+The all-data backup and existing local records remain compatible. Keep disk backups before updating. Browser-local stores do not synchronise between devices. Read RECORDS-GUIDE.md and UPLOAD-TO-GITHUB.md.
+
 # Flightdesk UK v1.1.0 — 19 November 2026
 
 This compatible feature release makes pre-flight, flight and post-flight records explicit and linked by one stable flight identity. Prepared from the user's GitHub `main` commit `ae27d4ff6ee8db34bae14cd2d963213af3421242`; the repository and Cloudflare production were not modified remotely.

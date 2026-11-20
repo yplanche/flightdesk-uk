@@ -33,8 +33,10 @@ Mission upload checks passed: individual snapshot, backup, crew merge, setup pre
 NOTAM refresh: manual press, pending, failed request with retained old list, successful parsing, stale response and incomplete window checks passed
 NOTAM relevance: overseas advice, UK security, altitude datums/buffer, terrain, GNSS, cancellations and unknown locations passed
 On-site conditions: assessment, actual-limit blockers, unknown states, public-only weather and preserved radar/legend checks passed
+Precipitation references: sourced no-rain guidance, no IP/daily-to-hourly inference, unknown aircraft left unverified, manufacturer limits cannot be raised by operator preferences; 3km initial search envelope.
 PWA precache, live/auth bypass, cached document, update, manifest and backup checks passed
 Record backups: empty-browser recovery, duplicate-safe merge, archived WARNING, inventory recovery, invalid-file rejection and escaped readable report passed
+Record actions: pending recovery and missing-title feedback visible, successful action reveals changed editor, current plan preserved before switching, active-flight guard retained.
 Record management: stable identity across briefing days, grouped phases, same-title isolation, legacy preservation, one-flight export/import with drafts, idempotence and safe HTML passed.
 Release safety: local environment files excluded, necessary source/build materials included and archive version identity matched.
 Release stability: unchanged rebuild preserves metadata, service worker, matching source archive and generated Worker bytes.

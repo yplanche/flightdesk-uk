@@ -24,3 +24,14 @@ Local mission/profile/battery storage is in the visitor's browser, not a shared 
 
 
 Version 1.0.0 removes user-paid weather connections and credentials. Open-Meteo public API eligibility and RainViewer eligibility still apply; an AGPL code licence does not grant service access rights. Commercial hosting/use needs a provider-terms review; use a compliant operator-hosted forecast backend or independent official sources if public API eligibility cannot be met. No user subscription controls are included.
+
+## Rain references added in 1.2.0 (reviewed 19 November 2026)
+
+- DJI Mavic 3 manual: https://dl.djicdn.com/downloads/DJI_Mavic_3/DJI_Mavic_3_User_Manual_v2.2_en.pdf
+- Mavic 3 Enterprise product/FAQ: https://enterprise.dji.com/mavic-3-enterprise and https://enterprise.dji.com/mavic-3-enterprise/faq
+- Mavic 3M: https://enterprise.dji.com/mavic-3-m
+- Matrice 4E/T FAQ: https://enterprise.dji.com/matrice-4-series/faq (not applied to 4D/4TD)
+- M300 RTK: https://enterprise.dji.com/matrice-300
+- M350 RTK FAQ: https://enterprise.dji.com/matrice-350-rtk/faq
+
+No rainfall probability is inferred from manufacturer hardware limits. IP ratings and 100 mm/24 hr references are not converted to mm/h. More restrictive payload/controller instructions may apply. Unmapped aircraft show an unverified reference and conservative dry-weather suggestion. This is a targeted source update, not an exhaustive current aircraft/manual audit.

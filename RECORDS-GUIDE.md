@@ -1,6 +1,8 @@
-# Flight records — v1.1.0
+# Flight records — v1.2.0
 
 ## Prepare today, fly tomorrow
+
+If a previous browser draft is waiting, the record manager displays Recover previous draft and Start fresh. Make that explicit choice before switching to another flight. A blocked action now explains the next step beside the controls.
 
 1. Enter a project title, mission title and planned date/time. Select **Save pre-flight briefing** at any stage, including an incomplete NO-GO plan.
 2. Tomorrow, open **1 · Flight record & project → Saved flights**, select that flight and press **Resume this planned flight**. Its reference and planned date/time stay the same. Renew current readings, weather, aviation information and live declarations before take-off. Recovering a browser draft also retains its original flight identity.

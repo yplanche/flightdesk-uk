@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 — 2026-11-19
+
+Make blocked record actions explicit with local recovery choices and result feedback; separate matching Forecast/Observations layouts, add observed precipitation validation, move rain/probability thresholds into Weather with sourced aircraft references, reorder aircraft/battery/airspace/weather, and default automatic NOTAM screening to 3 km. Existing record schemas/history retained.
+
 ## 1.1.0 — 2026-11-19
 
 Stable per-flight record management across pre-flight, flight and post-flight; explicit save/resume/new-flight controls; grouped revision history and complete-flight exports/imports; recoverable debrief drafts and guarded switching; duplicate-save and repeated-take-off protection. Existing history is preserved. See RECORDS-GUIDE.md and RELEASE-NOTES.md.
