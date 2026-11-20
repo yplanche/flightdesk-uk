@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1 — 2026-11-20
+
+Explain collection generation age separately from time coverage and notice effective dates; distinguish no matches from uncertain/unlocated and failed searches; make final airspace acknowledgement clickable and independent of operational suitability. Recorded official manual review resolves supplier gaps without clearing unresolved permissions.
+
 ## 1.3.0 — 2026-11-20
 
 Separate completed reviews from suitability; traffic-light recommendation wording; source-linked final statuses without circular VLOS dependency; visible weather/radar reviews; relevant-interval forecast identity; exact inspection timestamps/history and unsaved battery feedback. Existing local records/backups retained. See RELEASE-NOTES.md.
