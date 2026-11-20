@@ -1,0 +1,17 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+#weathercard .weather-phase{padding:1.1rem;margin:0;border-top:1px solid var(--line,#d7e3df)}
+#weathercard .weather-phase>h3{font-size:1.35rem;margin:0 0 .65rem}
+#weathercard .weather-measures{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.7rem;margin:1rem 0}
+#weathercard .weather-measure{display:flex;flex-direction:column;gap:.5rem;margin:0;padding:.9rem;border:1px solid #b8ccc5;border-radius:.6rem;background:#f7fbf9;min-width:0}
+#weathercard .weather-measure h4,#weathercard .weather-measure>.label{font-size:1rem;font-weight:700;margin:0;min-height:2.5rem}
+#weathercard .weather-measure output,#weathercard .weather-measure input{font-size:1.25rem;font-weight:650;min-height:2.8rem;width:100%;box-sizing:border-box;line-height:1.35}
+#weathercard .weather-measure output{display:flex;align-items:center}
+#weathercard .weather-measure .hint{margin:0;font-size:.875rem;line-height:1.5}
+#weathercard .weather-thresholds{padding:1rem;background:#edf4f2;border-radius:.6rem;margin:1rem 0}
+#weathercard #metrics{display:none!important}
+#weathercard #onsitepanel.status-attention{background:#fffaf2}
+#weathercard #onsitepanel.status-complete{background:#f0faf2}
+#weathercard .weather-measure.forecast-exceedance{background:#f3eaff;border-color:#9873ba}
+@media(max-width:1000px){#weathercard .weather-measures{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){#weathercard .weather-measures{grid-template-columns:1fr}#weathercard .weather-phase{padding:.85rem}#weathercard .weather-measure h4,#weathercard .weather-measure>.label{min-height:0}}
+@media print{#weathercard .weather-measures{grid-template-columns:repeat(3,minmax(0,1fr))}#weathercard .weather-measure{break-inside:avoid}}

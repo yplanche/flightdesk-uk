@@ -15,3 +15,5 @@
 @media(max-width:900px){#app-version{margin-left:20px!important;margin-right:20px!important}}
 
 .record-manager .btn:disabled{background:#edf0f2!important;color:#67727a!important;border-color:#d2d9de!important;cursor:not-allowed;opacity:.65}.record-manager .btn:focus-visible{outline:3px solid #1c7897;outline-offset:2px}
+
+#recordmanagerstatus.action-notice{background:#e6f3f4;color:#143b49;border-left:4px solid #267b91;padding:1rem;font-size:1rem}#managerrecovery{border:2px solid #bd7d24;background:#fff1d9;padding:1rem}#managerrecovery .inline{margin-top:.75rem}
