@@ -17,3 +17,8 @@ The 1.6.0 weather layout looked up a relocated wind input while its containing s
 | Reload and PWA | Browser: cached-version detection and update; latest-record selection retains the saved log after reload, while an explicit new flight remains separate. Automated: offline cache, updates, source identity and restore. |
 
 Records are local pilot-entered evidence, not telemetry, independent compliance certification or a flight clearance. Live supplier data and device-specific behavior require operator checks. No real aircraft was operated during browser tests.
+
+
+## Version 1.7.0 follow-up
+
+Editable 100% take-off-charge suggestion with explicit provenance; aligned weather limit controls; exact-reference debrief attachment, automatic standalone log creation with no fabricated times, timeline revisions and orphan debrief-draft recovery. Automated regression covers new/existing/ground/airborne cases, immutable history and complete bundle recovery.

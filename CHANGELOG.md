@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0 — 2026-11-20
+
+Set take-off charge to editable 100% planning default with explicit provenance/confirmation. Align weather threshold inputs with manufacturer reference above. Automatically append saved debrief revisions to the selected log timeline, creating a debrief-only log when no matching flight exists; missing flight times stay unknown.
+
 ## 1.6.1 — 2026-11-20
 
 Fix detached weather input lookup during startup that interrupted aircraft defaults, navigation, saved records and flight rendering. Restore latest recorded activity on reload while preserving explicit new-flight selection. Reviewed full-page runtime and takeoff/event/landing/export/debrief integration in browser.

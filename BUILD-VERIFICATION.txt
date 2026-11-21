@@ -1,8 +1,6 @@
-Flightdesk UK 1.6.1
-45 automated test programs passed.
-Browser reproduced 1.6.0 startup exception and verified the repaired 1.6.1 build.
-Browser checks: Mavic 3M, Mavic 3T and M300 defaults; new battery inspection/settings/duration; briefing revision; ground event; takeoff with immediate live entry and Airborne/timer; airborne note; landing duration/export; debrief save; latest-log recovery after reload.
-Downloaded browser JSON validated through record and backup validators.
-Catalogue sweep: 126 configurations; 80 mapped batteries; 50 sourced endurance suggestions; unknown values remain manual.
-No real aircraft operated. Supplier coverage and regulatory compliance are not certified by these tests.
-Not deployed to GitHub or Cloudflare.
+Flightdesk UK 1.7.0
+46 automated test programs passed.
+Browser: editable charge 100% default, manual override/source, reset on aircraft change; aligned weather inputs verified at 44px tall/equal row positions; automatic debrief-only log creation; repeated revision under same reference; attachment to existing landed flight preserving original events/times; persisted revisions after update/reload; completion status green.
+Browser-exported complete debrief JSON validated through backup and lifecycle validators; no actual flight times invented.
+ZIP hashes and extracted rebuild identity verified.
+No real aircraft operated. Not deployed to GitHub or Cloudflare.
