@@ -1,2 +1,2 @@
 /* SPDX-License-Identifier: AGPL-3.0-only */
-window.FLIGHTDESK_BUILD=Object.freeze({"appVersion":"1.6.1","sourceRevision":null,"sourceFingerprint":"3b9dc9a47efd02628f4f4a420e6d6003723a0512ae3757a70c21f01e758a16b8","buildId":"1.6.1-3b9dc9a47efd0262","buildDate":"2026-11-20T18:37:41Z","sourceArchive":"releases/flightdesk-uk-1.6.1-3b9dc9a47efd0262.zip","licence":"AGPL-3.0-only"});
+window.FLIGHTDESK_BUILD=Object.freeze({"appVersion":"1.7.0","sourceRevision":null,"sourceFingerprint":"80379acf8aebb03b08eaa94257818687ce62c2bfc12a74de1caa6d22fb471f24","buildId":"1.7.0-80379acf8aebb03b","buildDate":"2026-11-20T19:24:37Z","sourceArchive":"releases/flightdesk-uk-1.7.0-80379acf8aebb03b.zip","licence":"AGPL-3.0-only"});
